@@ -1,2 +1,2 @@
 # SOEN341
-Web application of a wishlist of a retailer  store
+The system is a web application that allows clients to watch a retailer's catalogs and create a wish list.
