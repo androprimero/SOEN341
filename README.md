@@ -15,4 +15,4 @@ The system is a web application that allows clients to watch a retailer's catalo
   
   **database** folder holds the server database related work. Scripts such as the latest data structure, generating data set and the currently data set being used by the server are part of this folder.
   
-  The **client**, **database** and **server** each contains a **README.md** file to understand their work related environment.
+  The **database** and **server** each contains a **README.md** file to understand their work related environment.
