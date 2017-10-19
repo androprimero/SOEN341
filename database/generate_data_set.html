@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Generate Data Set</title>
+</head>
+<body>
+	Number of Desktop:<input type="number" id="desktop"><br> Number of Monitor:<input type="number" id="monitor"><br> Number of Laptop <input type="number" id="laptop"><br> Number of Tablet:<input type="number" id="tablet"> <button type="button" onclick="populate_mysql()">Generate Rows</button><br> 
+	MySQL Code<br>
+	<textarea rows="40" cols="140" id="result_code">
+	</textarea>
+	<script>
+		function getId(a){
+			return document.getElementById(a);
+		}
+		getId("result_code").value="";
+		function prop_push(a){
+			if(!header)
+				getId("result_code").value+=", '"+a+"'";
+			else{
+				getId("result_code").value+="('"+a+"'";
+				header=false;
+			}
+		}
+		function prop_push_float(a){
+			if(!header)
+				getId("result_code").value+=", "+a+"";
+			else{
+				getId("result_code").value+="("+a+"";
+				header=false;
+			}
+		}
+		function prop_push_null(){
+			if(!header)
+				getId("result_code").value+=", null";
+			else {
+				getId("result_code").value+="( null";
+				header=false;
+			}
+		}
+		function create_insert(){
+			getId("result_code").value+="insert into `items` (`screen size`, `width`, `height`, `depth`, `weight`,`processor`,`ram`,`cpu cores`, `hard drive size`,`battery`,`brand`,`model`,`os`,`camera`,`price`,`type`)\nvalues\n";
+		}
+		function header_close(){
+			getId("result_code").value+=")";
+			header=true;
+		}
+		function header_next(){
+			getId("result_code").value+=",";
+		}
+		function prop_line(){
+			getId("result_code").value+="\n";
+		}
+		header=true;
+		desktop=["Toshiba","Apple","IBM","Fujitsu","Sony","Dell","Acer","Lenovo","Compaq","HP","Gateway","Alienware","Sony","NEC","Asus","CybertronPC"];
+		monitor=["Acer", "AOC", "Asus", "BenQ", "LG", "NEC", "Planar", "Samsung", "ViewSonic", "Sony","Sharp", "Philips", "3M", "Planar", "Gateway","Compaq"];
+		laptop=["Apple","Gateway","HCL","MSi","BenQ","HP","Samsung","Compaq","IBM","Sony","Dell","Lenovo","Toshiba","Fujitsu","LG","Wipro","Acer","Asus","Alienware"];
+		tablet=["Kindle", "Motorola","HP","Barnes and Noble","Samsung","Dell","RIM","Apple","Lenovo","Asus","Insignia","Polaroid","Huawei","LG"];
+		size_monitor=["17","19","22","23","24","27","28","29","32","34"];
+		size_laptop=["13.3","14","15","15.4","15.7","16"];
+		size_tablet=["5.1","8","9.7","10.1"];
+		desktop_processor=["AMD A4","AMD A6","AMD A8","AMD A10","AMD Athlon X4","AMD FX","Intel Pentium","Intel Xeon","Intel Core i3","Intel Core i5","Intel Core i7"];
+		laptop_processor=["AMD A4","AMD A6","AMD A8","AMD A10","Intel Atom","Intel Celeron","Intel Pentium","Intel Core i3","Intel Core i5","Intel Core i7"];
+		apple_laptop_desktop_processor=["Intel i3","Intel Core i5","Intel Core i7"];
+		tablet_processor=["Cortex A5","Cortex A8","Cortex A9","Cortex A12","Cortex A15","Cortex 17","Cortex A72","Intel Core i3","Intel Core i5","Intel Core i7","AMD A4","AMD A6","AMD A10"];
+		apple_tablet_processor=["A10X","A8X","A5","A5X","A6X"];
+		
+		desktop_laptop_ram=["2 GB", "4 GB", "6 GB", "8 GB"];
+		tablet_ram=["512 MB", "1 GB", "2 GB", "4 GB", "6 GB"];
+		apple_tablet_ram=["2 GB", "4 GB"];
+		
+		core=["2","4","6"];
+		tablet_core=laptop_core=["1","2","4","6"];
+		apple_tablet_core=apple_laptop_core=["2","4","6"];
+		
+		
+		laptop_desktop_hard_drive=["250 GB","500 GB","750 GB", "1 TB", "2 TB"];
+		tablet_hard_drive=["8 GB","16 GB","32 GB","64 GB"];
+		laptop_battery=["40","45","50","60","65"];
+		tablet_battery=["30","35","40","50","60"];
+		
+		laptop_os=["Windows 10","Windows 8","Windows 7"];
+		apple_laptop_os=["High Sierra 10.12", "El Capitan 10.11", "Yosemite 10.11", "Mavericks 10.9"];
+		tablet_os=["Jelly Bean 4.1", "KitKat 4.4", "Lollipop 5.0", "Marshmallow 6.0","Nougat 7.0","Oreo 8.0"];
+		apple_tablet_os=["iOS 11","iOS 10","iOS 9", "iOS 8"];
+		tablet_camera=["6","8","12","14","16"];
+		end_price=[0.19,0.35,0.45,0.59,0.79,0.98,0.99];
+		var model_names=[];
+		function random_number(b,a,c){
+			return ((Math.random()*(b-a)+a).toString()).substring(0,c);
+		}
+		function random_point(a){
+			return a[Math.floor(Math.random() * a.length)];
+		}
+		function isPart(b){
+			for(var i=0; i<model_names.length;i++){
+				if(b===model_names[i]){
+					return true;
+				}
+			}
+			return false;
+		}
+		function generateModel(a){
+			//var notFound=false;
+			//var number;
+			//do {
+				number = (((Math.random()*(5000-1000))+2000).toString()).substring(0,4);
+				if(!isPart(a+""+number)){
+					model_names.push(a+""+number);
+					return (a+""+number)
+				}
+				return generateModel(a);
+			//}
+			//while(notFound)
+		}
+		<!-- alert(model_names.length+" "+generateModel("M")+" "+model_names.length); -->
+		<!-- alert(model_names.length+" "+generateModel("M")+" "+model_names.length); -->
+		<!-- alert(model_names[0]+" "+model_names[1]); -->
+		var dimension={
+			desktop_width_max:16,
+			desktop_width_min:13,
+			desktop_height_max:38,
+			desktop_height_min:29.5,
+			desktop_depth_max:32.5,
+			desktop_depth_min:25,
+			
+			tablet_width51_max:12,
+			tablet_width51_min:8,
+			tablet_height51_max:19,
+			tablet_height51_min:16.5,
+			tablet_width8_max:14,
+			tablet_width8_min:12.5,
+			tablet_height8_max:20.5,
+			tablet_height8_min:18,
+			tablet_width97_max:17,
+			tablet_width97_min:14.5,
+			tablet_height97_max:24.5,
+			tablet_height97_min:20.5,
+			tablet_width101_max:17,
+			tablet_width101_min:14.5,
+			tablet_height101_max:27.5,
+			tablet_height101_min:21.5,
+			
+			tablet_depth_max:0.4,
+			tablet_depth_min:0.9,
+			
+			desktop_weight_max:3.5,
+			desktop_weight_min:1.5,
+			monitor_weight_max:4,
+			monitor_weight_min:2,
+			laptop_weight_max:6.5,
+			laptop_weight_min:3.5,
+			tablet_weight_max:750,
+			tablet_weight_min:300,
+			
+		}
+		function generate_desktop(){
+			//screen size
+			prop_push_null();
+			var desk=random_point(desktop);
+			prop_push_float( random_number(dimension.desktop_width_max, dimension.desktop_width_min,4) );
+			prop_push_float( random_number(dimension.desktop_height_max, dimension.desktop_height_min,4) );
+			prop_push_float( random_number(dimension.desktop_depth_max, dimension.desktop_depth_min,4) );
+			prop_push( random_number(dimension.desktop_weight_max, dimension.desktop_weight_min,4) +" "+"kg" );
+			if(desk==="Apple"){
+				prop_push( random_point( apple_laptop_desktop_processor ) );
+				<!-- prop_push( random_point(apple_laptop_os) ); -->
+			}
+			else{
+				prop_push( random_point( desktop_processor ) );
+				<!-- prop_push( random_point(laptop_os) ); -->
+			}
+			prop_push( random_point(desktop_laptop_ram) );
+			prop_push_float( random_point(core) );
+			prop_push( random_point(laptop_desktop_hard_drive) );
+			//battery
+			prop_push_null();
+			prop_push(desk);
+			prop_push(generateModel(desk.substring(0,2)))
+			//OS
+			prop_push_null();
+			//camera
+			prop_push_null();
+			prop_push_float( generate_price() );
+			prop_push('desktop');
+		}
+		function generate_monitor(){
+			prop_push_float( random_point(size_monitor) );
+			//null width, height, depth
+			prop_push_null();prop_push_null();prop_push_null();
+			prop_push( random_number(dimension.monitor_weight_max, dimension.monitor_weight_min,4) +" "+"kg" )
+			//null processor, ram, cpu cores, hard drive size, battery
+			prop_push_null();prop_push_null();prop_push_null();prop_push_null();prop_push_null();
+			var mon=random_point( monitor )
+			prop_push( mon );
+			prop_push( generateModel(mon.substring(0,1)) );
+			//null os, camera
+			prop_push_null();prop_push_null();
+			prop_push_float( generate_price_monitor() );
+			prop_push("monitor");
+		}
+		function generate_laptop(){
+			prop_push_float( random_point(size_laptop) );
+			//null width, height, depth,
+			prop_push_null();prop_push_null();prop_push_null();
+			prop_push( random_number(dimension.laptop_weight_max, dimension.laptop_weight_min,4) +" "+"lb"  );
+			var lap= random_point( laptop );
+			if(lap==="Apple"){
+				prop_push( random_point( apple_laptop_desktop_processor ) );
+			}
+			else{
+				prop_push( random_point( laptop_processor ) );
+			}
+			prop_push( random_point( desktop_laptop_ram ) )
+			if(lap==="Apple"){
+				prop_push_float( random_point( apple_laptop_core ) );
+			}
+			else{
+				prop_push_float( random_point( laptop_core ) );
+			}
+			prop_push( random_point(laptop_desktop_hard_drive));
+			prop_push_float( random_point(laptop_battery));
+			prop_push(lap);
+			prop_push( generateModel(lap.substring(0,2)) )
+			if(lap==="Apple"){
+				prop_push( random_point( apple_laptop_os ) );
+			}
+			else{
+				prop_push( random_point( laptop_os ) );
+			}
+			//null camera
+			prop_push_null();
+			prop_push_float(generate_price());
+			prop_push("laptop")
+		}
+		function generate_tablet(){
+			var screen_size=random_point(size_tablet);
+			prop_push_float( screen_size );
+			<!-- size_tablet=["5.1","8","9.7","10.1"]; -->
+			if(screen_size==="5.1"){
+				prop_push_float( random_number(dimension.tablet_width51_max, dimension.tablet_width51_min,4) );
+				prop_push_float( random_number(dimension.tablet_height51_max, dimension.tablet_height51_min,4) );
+			}
+			else if(screen_size==="8"){
+				prop_push_float( random_number(dimension.tablet_width8_max, dimension.tablet_width8_min,4) );
+				prop_push_float( random_number(dimension.tablet_height8_max, dimension.tablet_height8_min,4) );
+			}
+			else if(screen_size==="9.7"){
+				prop_push_float( random_number(dimension.tablet_width97_max, dimension.tablet_width97_min,4) );
+				prop_push_float( random_number(dimension.tablet_height97_max, dimension.tablet_height97_min,4) );
+			}
+			else{
+				prop_push_float( random_number(dimension.tablet_width101_max, dimension.tablet_width101_min,4) );
+				prop_push_float( random_number(dimension.tablet_height101_max, dimension.tablet_height101_min,4) );
+			}
+			prop_push_float( random_number(dimension.tablet_depth_max, dimension.tablet_depth_min,4) )
+			prop_push( random_number(dimension.tablet_weight_max, dimension.tablet_weight_min,3) +" "+"grams");
+			var tap= random_point( tablet );
+			if(tap==="Apple"){
+				prop_push( random_point( apple_tablet_processor ) );
+				prop_push( random_point( apple_tablet_ram ) )
+				prop_push_float( random_point( apple_tablet_core ) );
+			}
+			else{
+				prop_push( random_point( tablet_processor ) );
+				prop_push( random_point( tablet_ram ) );
+				prop_push_float( random_point( tablet_core ) );
+			}
+			prop_push( random_point(tablet_hard_drive));
+			prop_push_float( random_point(tablet_battery));
+			prop_push(tap);
+			prop_push( generateModel(tap.substring(0,2)) )
+			if(tap==="Apple"){
+				prop_push( random_point( apple_tablet_os ) );
+			}
+			else{
+				prop_push( random_point( tablet_os ) );
+			}
+			prop_push_float( random_point(tablet_camera) );
+			prop_push_float(generate_price_tablet());
+			prop_push("tablet")
+		}
+		
+		function generate_price(){
+			return Math.floor((Math.random() * (1200-350)+350))+random_point(end_price);
+		}
+		function generate_price_monitor(){
+			return Math.floor((Math.random() * (550-101)+101))+random_point(end_price);
+		}
+		function generate_price_tablet(){
+			return Math.floor((Math.random() * (750-160)+160))+random_point(end_price);
+		}
+		function populate_mysql(){
+			var rnd=[];
+			for(var i=0;i<getId("desktop").value;i++){
+				rnd.push(0);
+			}
+			for(var i=0;i<getId("monitor").value;i++){
+				rnd.push(1);
+			}
+			for(var i=0;i<getId("laptop").value;i++){
+				rnd.push(2);
+			}
+			for(var i=0;i<getId("tablet").value;i++){
+				rnd.push(3);
+			}
+			var random;
+			create_insert();
+			while(rnd.length>0){
+				random = Math.floor(Math.random() * rnd.length);
+				if(rnd[random]==0){
+					generate_desktop()
+				}
+				else if(rnd[random]==1){
+					generate_monitor()
+				}
+				else if(rnd[random]==2){
+					generate_laptop()
+				}
+				else if(rnd[random]==3){
+					generate_tablet()
+				}
+				header_close();
+				if(rnd.length>1)
+				header_next();
+				prop_line();
+				rnd.splice(random,1);
+			}
+		}
+		<!-- header_next(); -->
+		<!-- prop_line(); -->
+		<!-- generate_desktop(); -->
+		<!-- header_close(); -->
+	</script>
+</body>
+</html>
