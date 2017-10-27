@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Catalog Page </title>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+	<script>
+$(document).ready(function(){
+	$("#tablets").hide();
+	$("#desktops").hide();
+	$("#monitors").hide();
+	$("#laptops").hide();
+    $("form").submit(function(){
+        if ($("#categories").val()=="tablets"){
+        	$("#tablets").show();
+     	   	$("#desktops").hide();
+     		$("#monitors").hide();
+     		$("#laptops").hide();
+        }
+          if ($("#categories").val()=="desktops"){
+        	$("#desktops").show();
+        	$("#tablets").hide();
+			$("#monitors").hide();
+			$("#laptops").hide();
+        }
+        if ($("#categories").val()=="monitors"){
+        	$("#monitors").show();
+        	$("#tablets").hide();
+			$("#desktops").hide();
+			$("#laptops").hide();
+        }
+          if ($("#categories").val()=="laptops"){
+        	$("#laptops").show();
+        	$("#tablets").hide();
+			$("#desktops").hide();
+			$("#monitors").hide();
+        }
+        
+    });
+});
+</script>
+</head>
+
+
+<body>
+	<h1>Catalog</h1>
+	<form id="form" action="function()">
+		Select a category: 
+  <select name="categories" id="categories">
+    <option value="tablets">Tablets</option>
+    <option value="desktops">Desktops</option>
+    <option value="monitors">Monitors</option>
+    <option value="laptops">Laptops</option>
+  </select>
+  <br><br>
+<input type="submit" value="Show results">
+</form>
+
+<field id="tablets">Show Tablets</field>
+<field id="desktops">Show Desktops</field>
+<field id="monitors">Show Monitors</field>
+<field id="laptops">Show Laptops</field>
+</body>
+</html>
