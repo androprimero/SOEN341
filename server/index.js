@@ -250,6 +250,9 @@ function json_login_result(result){
 	
 }
 let con = new ConnectMySQL();
+app.get("/home",function(req,res){
+	res.send("My home page")
+})
 //request Desktop
 app.get("/:skip/:amountPerPage/desktop/:processor/:ram/:cores/:hard_drive_size/:brand/:orderBy",function(req, res){
 	res.setHeader('Content-Type','text/json');

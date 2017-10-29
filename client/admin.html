@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="index.css">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+<script>
+$(document).ready(function(){
+$('#modelNumberSubmit').on('click',function(){
+	var $newInputs = $('<p>Type: </p> <input type="text" name="type" value="Enter Item Type"><p>Price: </p> <input type="text" name="price" value="Enter Item Price"><p>Weight: </p><input type="text" name="weight" value="Enter Item Weight"><br><p>Brand: </p><input type="text" name="brand" value="Enter Item Brand"> <p>Model: </p><input type="text" name="model" value="Enter Item Model"><br><p>CPU Core: </p><input type="text" name="cpuCores" value="Enter Item CPU Core"> <p>Ram: </p> <input type="text" name="ram" value="Enter Item Ram"> ');
+	
+	var $('#consultProduct').append($newInputs);
+
+});
+});
+</script>
+
+
+</head>
+<body>
+	<div class="row">
+		<header id="sticker">
+			<nav>
+				<ul>
+					<li> <a href="home"> <i class="fa fa-home"></i>Home</a> </li>
+					<li> <a href="Catalog"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Catalog</a></li>
+					<li> <a href="Login"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a> </li>
+					<li> <a href="Register"> <i class="fa fa-user" aria-hidden="true"></i>Register</a> </li>
+				</ul>
+			</nav>
+		</header>
+	<form action="admin.html">
+  <fieldset id="consultProduct">
+    <legend>Consult Product:</legend>
+    Model Number:
+    <input class="modelNumberField" type="text" name="modelnumber" value="Enter Model Number">
+    <input id="modelNumberSubmit" type="submit" value="Submit">
+  </fieldset>
+</form>
+
+</body>
+</html>
