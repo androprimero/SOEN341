@@ -11,30 +11,35 @@ $(document).ready(function(){
 	$("#desktops").hide();
 	$("#monitors").hide();
 	$("#laptops").hide();
+  $("#specifications").hide();
     $("form").submit(function(){
         if ($("#categories").val()=="tablets"){
         	$("#tablets").show();
      	   	$("#desktops").hide();
      		$("#monitors").hide();
      		$("#laptops").hide();
+          $("#specifications").show();
         }
           if ($("#categories").val()=="desktops"){
         	$("#desktops").show();
         	$("#tablets").hide();
 			$("#monitors").hide();
 			$("#laptops").hide();
+       $("#specifications").show();
         }
         if ($("#categories").val()=="monitors"){
         	$("#monitors").show();
         	$("#tablets").hide();
 			$("#desktops").hide();
 			$("#laptops").hide();
+       $("#specifications").show();
         }
           if ($("#categories").val()=="laptops"){
         	$("#laptops").show();
         	$("#tablets").hide();
 			$("#desktops").hide();
 			$("#monitors").hide();
+       $("#specifications").show();
         }
         
     });
@@ -59,6 +64,11 @@ $(document).ready(function(){
     </header>
 
 	<h1>Catalog</h1>
+
+  <div id="specifications" style="float:right; width:50%;"> 
+    <h3> Product Specifications </h3> 
+  </div>
+
 	<form id="form" action="function()">
 		Select a category: 
   <select name="categories" id="categories">
@@ -75,5 +85,6 @@ $(document).ready(function(){
 <field id="desktops">Show Desktops</field>
 <field id="monitors">Show Monitors</field>
 <field id="laptops">Show Laptops</field>
+
 </body>
 </html>
