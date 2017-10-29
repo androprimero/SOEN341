@@ -1,4 +1,4 @@
-var User = require(./User.js);
+var User = require('./User.js');
 // Class Administrator
 function Administrator(IdNumber,FirstName,LastName,Address,EmailAddress,PhoneNumber){
     User.call(this,IdNumber,FirstName,LastName,Address,EmailAddress,PhoneNumber);
