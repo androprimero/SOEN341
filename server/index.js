@@ -2,7 +2,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-app.use(express.static(path.join(__dirname, 'web')));
+app.use(express.static(path.join(__dirname, 'Web')));
 app.get("/Hello",function(req,res){
 	res.setHeader("Content-Type","text/html");
 	res.write("Team 1, 341 fall 2017 -- Sample Home Page <br>");
