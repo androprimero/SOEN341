@@ -36,12 +36,16 @@
     });
 $('#modelNumberSubmit').on('click', function(){
 	var $operationMenu = $('<select name="operationType"><option value="addItem">Add Item</option><option value="modifyItem">Modify Item</option><option value="deleteItem">Delete Item</option>');
-	var $newInputs = $('<p>Type: <input type="text" name="type" placeholder="Enter Item Type"> Price: <input type="text" name="price" placeholder="Enter Item Price">  Weight: <input type="text" name="weight" placeholder="Enter Item Weight"></p><p>  Brand: <input type="text" name="brand" placeholder="Enter Item Brand">  Model: <input type="text" name="model" placeholder="Enter Item Model">  CPU Core: <input type="text" name="cpuCores" placeholder="Enter Item CPU Core"></p><p>Battery: <input type="text" name="Battery" placeholder="Enter Item Battery">  OS: <input type="text" name="os" placeholder="Enter Item OS">  Camera: <input type="text" name="camera" placeholder="Enter Item Camera"></p><p>  Ram: <input type="text" name="ram" placeholder="Enter Item Ram">  Processor: <input type="text" name="processor" placeholder="Enter Item Processor">  Hard Drive Size: <input type="text" name="hardDriveSize" placeholder="Enter Item Hard Drive Size"></p><p>Screen Size: <input type="text" name="screenSize" placeholder="Enter Item Screen Size">  Width: <input type="text" name="width" placeholder="Enter Item Width">  Height: <input type="text" name="height" placeholder="Enter Item Height">  Depth: <input type="text" name="depth" placeholder="Enter Item Depth"></p>  ');
+	var $newInputs = $('<p>Type: <input id="typeInput" type="text" name="type" placeholder="Enter Item Type"> Price: <input id="priceInput" type="text" name="price" placeholder="Enter Item Price">  Weight: <input id="weightInput" type="text" name="weight" placeholder="Enter Item Weight"></p><p>  Brand: <input id="brandInput" type="text" name="brand" placeholder="Enter Item Brand">  Model: <input id="modelInput" type="text" name="model" placeholder="Enter Item Model">  CPU Core: <input id="cpuCoreInput" type="text" name="cpuCore" placeholder="Enter Item CPU Core"></p><p>Battery: <input id="batteryInput" type="text" name="Battery" placeholder="Enter Item Battery">  OS: <input id="osInput" type="text" name="os" placeholder="Enter Item OS">  Camera: <input id="cameraInput" type="text" name="camera" placeholder="Enter Item Camera"></p><p>  Ram: <input id="ramInput" type="text" name="ram" placeholder="Enter Item Ram">  Processor: <input id="processorInput" type="text" name="processor" placeholder="Enter Item Processor">  Hard Drive Size: <input id="hardDriveSizeInput" type="text" name="hardDriveSize" placeholder="Enter Item Hard Drive Size"></p><p>Screen Size: <input type="text" name="screenSize" placeholder="Enter Item Screen Size">  Width: <input id="widthInput" type="text" name="width" placeholder="Enter Item Width">  Height: <input id="heightInput" type="text" name="height" placeholder="Enter Item Height">  Depth: <input id="depthInput" type="text" name="depth" placeholder="Enter Item Depth"></p>  ');
 	var $saveButton = $('<input id="saveItemSubmit" type="button" value="Modify">');
 	var $addDeleteButton = $('<input id="addDeleteSubmit" type="button" value="Add Delete">');
 
 	$('fieldset').append($operationMenu).append($newInputs).append($saveButton).append($addDeleteButton);
+	var $hello = $('#typeInput');
+	$addDeleteButton.on('click', function(){
+		console.log($hello.val());
 
+	});
 
 });
 </script>
