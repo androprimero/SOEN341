@@ -5,10 +5,10 @@
 ### Creating An Administrator
 **Add the class** Administrator using
 
-`var Administrator =require('./Users/Administrator.js');
+`var Administrator =require('./Users/Administrator.js');`
 
 **Instatiate**
 
-`var Admin = new Administrator(IdNumber,FirstName,LastName,Address,EmailAddress,PhoneNumber);
+`var Admin = new Administrator(IdNumber,FirstName,LastName,Address,EmailAddress,PhoneNumber);`
 
 
