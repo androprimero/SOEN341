@@ -249,7 +249,6 @@ $addDeleteButton.on('click', function(){
 
 
 $modifyButton.on('click', function(){
-	console.log('yoyoyo000');
 		if(object.Type()== m){
 			object.Model_Number($model.val());
 			object.Type($type.val());
@@ -281,31 +280,27 @@ $modifyButton.on('click', function(){
 		}
 
 		
-	if($type.val()==l ){
-		var laptop = {
-
-			screenSize: $screenSize.val(),
-			weight: $weight.val(),
-			processor: $processor.val(),
-			ram: $ram.val(),
-			cpuCore: $cpuCore.val(),
-			hardDriveSize: $hardDriveSize.val(),
-			battery: $battery.val(),
-			brand: $brand.val(),
-			model: $model.val(),
-			os: $os.val(),
-			price: $price.val(),
-			type: $type.val()
+	if(object.Type()==l ){
 		
-
-
-		};
+			object.Model_Number($model.val());
+			object.Type($type.val());
+			object.price($price.val());
+			object.weight($weight.val());
+			object.BrandName($brand.val());
+			object.HardDriveSize($hardDriveSize.val());
+			object.RAM($ram.val());
+			object.CPUCores($cpuCore.val());
+			object.dimension();
+			object.ProcessorType($processor.val());
+			object.DisplaySize($screenSize.val());
+			object.BatteryInformation($Battery.val());
+			object.OperativeSystem($os.val());
+		
 				$.ajax({
 			type: 'POST',
 			url: '',
-			data: laptop
-			success: function(modifyLaptop){
-				modifyLaptop =laptop;
+			data: JSON.stringify(object)
+			success: function(newLaptop){
 				$newInputs=$('');
 				alert(tablet.type()+ " has been modified and added to the catalog!");
 
@@ -324,29 +319,23 @@ $modifyButton.on('click', function(){
 
 		
 	if($type.val()== d){
-		var desktop = {
 
-			height: $height.val(),
-			width: $width.val(),
-			weight: $weight.val(),
-			depth: $depth.val(),
-			processor: $processor.val(),
-			ram: $ram.val(),
-			cpuCore: $cpuCore.val(),
-			hardDriveSize: $hardDriveSize.val(),
-			brand: $brand.val(),
-			model: $model.val(),
-			price: $price.val(),
-			type: $type.val()
+			object.Model_Number($model.val());
+			object.Type($type.val());
+			object.price($price.val());
+			object.weight($weight.val());
+			object.BrandName($brand.val());
+			object.HardDriveSize($hardDriveSize.val());
+			object.RAM($ram.val());
+			object.CPUCores($cpuCore.val());
+			object.dimension();
+			object.ProcessorType($processor.val());
 
-
-		};
 				$.ajax({
 			type: 'POST',
 			url: '',
-			data: desktop
-			success: function(modifyDesktop){
-				modifyDesktop =desktop;
+			data: JSON.stringify(object)
+			success: function(newDesktop){
 				$newInputs=$('');
 				alert(tablet.type()+ " has been modified and added to the catalog!");
 
@@ -366,33 +355,27 @@ $modifyButton.on('click', function(){
 		
 	if($type.val()== t){
 
-		var tablet = {
+			object.Model_Number($model.val());
+			object.Type($type.val());
+			object.price($price.val());
+			object.weight($weight.val());
+			object.BrandName($brand.val());
+			object.HardDriveSize($hardDriveSize.val());
+			object.RAM($ram.val());
+			object.CPUCores($cpuCore.val());
+			object.dimension();
+			object.ProcessorType($processor.val());
+			object.DisplaySize($screenSize.val());
+			object.BatteryInformation($Battery.val());
+			object.OperativeSystem($os.val());
+			object.CameraInformation($camera.val());
+	
 
-			screenSize: $screenSize.val(),
-			height: $height.val(),
-			width: $width.val(),
-			weight: $weight.val(),
-			depth: $depth.val(),
-			processor: $processor.val(),
-			ram: $ram.val(),
-			cpuCore: $cpuCore.val(),
-			hardDriveSize: $hardDriveSize.val(),
-			battery: $battery.val(),
-			brand: $brand.val(),
-			model: $model.val(),
-			os: $os.val(),
-			camera: $camera.val(),
-			price: $price.val(),
-			type: $type.val()
-
-
-		};
 				$.ajax({
 			type: 'POST',
 			url: '',
 			data: JSON.stringify(tablet)
-			success: function(modifyTablet){
-				modifyTablet =;
+			success: function(newTablet){
 				$newInputs=$('');
 				alert(tablet.type()+ " has been modified and added to the catalog!");
 
