@@ -30,24 +30,370 @@
 </form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-	$('input:text').focus(
-    function(){
-        $(this).val('');
-    });
-$('#modelNumberSubmit').on('click', function(){
 	var $operationMenu = $('<select name="operationType"><option value="addItem">Add Item</option><option value="modifyItem">Modify Item</option><option value="deleteItem">Delete Item</option>');
 	var $newInputs = $('<p>Type: <input id="typeInput" type="text" name="type" placeholder="Enter Item Type"> Price: <input id="priceInput" type="text" name="price" placeholder="Enter Item Price">  Weight: <input id="weightInput" type="text" name="weight" placeholder="Enter Item Weight"></p><p>  Brand: <input id="brandInput" type="text" name="brand" placeholder="Enter Item Brand">  Model: <input id="modelInput" type="text" name="model" placeholder="Enter Item Model">  CPU Core: <input id="cpuCoreInput" type="text" name="cpuCore" placeholder="Enter Item CPU Core"></p><p>Battery: <input id="batteryInput" type="text" name="Battery" placeholder="Enter Item Battery">  OS: <input id="osInput" type="text" name="os" placeholder="Enter Item OS">  Camera: <input id="cameraInput" type="text" name="camera" placeholder="Enter Item Camera"></p><p>  Ram: <input id="ramInput" type="text" name="ram" placeholder="Enter Item Ram">  Processor: <input id="processorInput" type="text" name="processor" placeholder="Enter Item Processor">  Hard Drive Size: <input id="hardDriveSizeInput" type="text" name="hardDriveSize" placeholder="Enter Item Hard Drive Size"></p><p>Screen Size: <input type="text" name="screenSize" placeholder="Enter Item Screen Size">  Width: <input id="widthInput" type="text" name="width" placeholder="Enter Item Width">  Height: <input id="heightInput" type="text" name="height" placeholder="Enter Item Height">  Depth: <input id="depthInput" type="text" name="depth" placeholder="Enter Item Depth"></p>  ');
-	var $saveButton = $('<input id="saveItemSubmit" type="button" value="Modify">');
+	var $modifyButton = $('<input id="saveItemSubmit" type="button" value="Modify">');
 	var $addDeleteButton = $('<input id="addDeleteSubmit" type="button" value="Add Delete">');
+	var $type = $('#typeInput');
+	var $price = $('#priceInput');
+	var $weight = $('#weightInput');
+	var $brand = $('#brandInput');
+	var $model = $('#modelInput');
+	var $cpuCore = $('#cpuCoreInput');
+	var $Battery = $('#batteryInput');
+	var $os = $('#osInput');
+	var $camera = $('#cameraInput');
+	var $ram = $('#ramInput');
+	var $processor = $('#processorInput');
+	var $hardDriveSize = $('#hardDriveSizeInput');
+	var $screenSize = $('#screenSizeInput');
+	var $width = $('#widthInput');
+	var $height = $('#heightInput');
+	var $depth = $('#depthInput');
+	var $modelNumberField = $('.modelNumberField');
+	var urlObj='verifyProduct/byModelNumber/'+$modelNumberField.val();
+
+	var l="laptop";
+	var m="monitor";
+	var d="desktop";
+	var t="tablet";
+	var object={};
+	}
+		
+
+$('#modelNumberSubmit').on('click', function(){
+	$.ajax({
+			type: 'GET',
+			url: urlObj
+			success: function(jsonobject){
+				object = JSON.parse(jsonobject);
+
+
+			},
+			error: function(){
+
+				alert("Error on Verifying!")
+			}
+
+
+
+		});
 
 	$('fieldset').append($operationMenu).append($newInputs).append($saveButton).append($addDeleteButton);
-	var $hello = $('#typeInput');
-	$addDeleteButton.on('click', function(){
-		console.log($hello.val());
+	
+
+});
+$addDeleteButton.on('click', function(){
+	console.log('yoyoyo000');
+		if($type.val()== m){
+		var monitor = {
+			Model_Number: $model.val(),
+			Type: $type.val(),
+			price: $price.val(),
+			weight: $weight.val(),
+			BrandName: $brand.val(),
+			Size: $screenSize.val()
+		
+
+
+		};
+
+		$.ajax({
+			type: 'POST',
+			url: '',
+			data: monitor
+			success: function(newMonitor){
+				$newInputs=$('');
+				alert(monitor.type()+ " has been added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't add the item to the catalog. Please try again later!")
+			}
+
+
+
+		});
+
+
+		}
+
+		
+	if($type.val()==l ){
+		var laptop = {
+
+			screenSize: $screenSize.val(),
+			weight: $weight.val(),
+			processor: $processor.val(),
+			ram: $ram.val(),
+			cpuCore: $cpuCore.val(),
+			hardDriveSize: $hardDriveSize.val(),
+			battery: $battery.val(),
+			brand: $brand.val(),
+			model: $model.val(),
+			os: $os.val(),
+			price: $price.val(),
+			type: $type.val()
+		
+
+
+		};
+				$.ajax({
+			type: 'POST',
+			url: '',
+			data: laptop
+			success: function(newMonitor){
+				$newInputs=$('');
+				alert(laptop.type()+ " has been added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't add the item to the catalog. Please try again later!")
+			}
+
+
+
+		});
+
+	}
+
+		
+	if($type.val()== d){
+		var desktop = {
+
+			height: $height.val(),
+			width: $width.val(),
+			weight: $weight.val(),
+			depth: $depth.val(),
+			processor: $processor.val(),
+			ram: $ram.val(),
+			cpuCore: $cpuCore.val(),
+			hardDriveSize: $hardDriveSize.val(),
+			brand: $brand.val(),
+			model: $model.val(),
+			price: $price.val(),
+			type: $type.val()
+
+
+		};
+				$.ajax({
+			type: 'POST',
+			url: '',
+			data: desktop
+			success: function(newMonitor){
+				$newInputs=$('');
+				alert(desktop.type()+ " has been added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't add the item to the catalog. Please try again later!")
+			}
+
+
+
+		});
+
+	}
+
+		
+	if($type.val()== t){
+
+		var tablet = {
+
+			screenSize: $screenSize.val(),
+			height: $height.val(),
+			width: $width.val(),
+			weight: $weight.val(),
+			depth: $depth.val(),
+			processor: $processor.val(),
+			ram: $ram.val(),
+			cpuCore: $cpuCore.val(),
+			hardDriveSize: $hardDriveSize.val(),
+			battery: $battery.val(),
+			brand: $brand.val(),
+			model: $model.val(),
+			os: $os.val(),
+			camera: $camera.val(),
+			price: $price.val(),
+			type: $type.val()
+
+
+		};
+				$.ajax({
+			type: 'POST',
+			url: '',
+			data: tablet
+			success: function(newMonitor){
+				$newInputs=$('');
+				alert(tablet.type()+ " has been added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't add the item to the catalog. Please try again later!")
+			}
+
+
+
+		});
+
+	}
+
+		
 
 	});
 
-});
+
+
+$modifyButton.on('click', function(){
+		if(object.Type()== m){
+			object.Model_Number($model.val());
+			object.Type($type.val());
+			object.price($price.val());
+			object.weight($weight.val());
+			object.BrandName($brand.val());
+			object.Size($screenSize.val());
+
+		$.ajax({
+			type: 'POST',
+			url: '',
+			data: JSON.stringify(object)
+			success: function(newMonitor){
+				$newInputs=$('');
+				alert(object.Type()+ " has been modified and added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't modify the item to the catalog. Please try again later!")
+			}
+
+
+
+
+		});
+
+
+		}
+
+		
+	if(object.Type()==l ){
+		
+			object.Model_Number($model.val());
+			object.Type($type.val());
+			object.price($price.val());
+			object.weight($weight.val());
+			object.BrandName($brand.val());
+			object.HardDriveSize($hardDriveSize.val());
+			object.RAM($ram.val());
+			object.CPUCores($cpuCore.val());
+			object.dimension();
+			object.ProcessorType($processor.val());
+			object.DisplaySize($screenSize.val());
+			object.BatteryInformation($Battery.val());
+			object.OperativeSystem($os.val());
+		
+				$.ajax({
+			type: 'POST',
+			url: '',
+			data: JSON.stringify(object)
+			success: function(newLaptop){
+				$newInputs=$('');
+				alert(tablet.type()+ " has been modified and added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't modify the item to the catalog. Please try again later!")
+			}
+
+
+
+
+		});
+
+	}
+
+		
+	if($type.val()== d){
+
+			object.Model_Number($model.val());
+			object.Type($type.val());
+			object.price($price.val());
+			object.weight($weight.val());
+			object.BrandName($brand.val());
+			object.HardDriveSize($hardDriveSize.val());
+			object.RAM($ram.val());
+			object.CPUCores($cpuCore.val());
+			object.dimension();
+			object.ProcessorType($processor.val());
+
+				$.ajax({
+			type: 'POST',
+			url: '',
+			data: JSON.stringify(object)
+			success: function(newDesktop){
+				$newInputs=$('');
+				alert(tablet.type()+ " has been modified and added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't modify the item to the catalog. Please try again later!")
+			}
+
+
+
+
+		});
+
+	}
+
+		
+	if($type.val()== t){
+
+			object.Model_Number($model.val());
+			object.Type($type.val());
+			object.price($price.val());
+			object.weight($weight.val());
+			object.BrandName($brand.val());
+			object.HardDriveSize($hardDriveSize.val());
+			object.RAM($ram.val());
+			object.CPUCores($cpuCore.val());
+			object.dimension();
+			object.ProcessorType($processor.val());
+			object.DisplaySize($screenSize.val());
+			object.BatteryInformation($Battery.val());
+			object.OperativeSystem($os.val());
+			object.CameraInformation($camera.val());
+	
+
+				$.ajax({
+			type: 'POST',
+			url: '',
+			data: JSON.stringify(tablet)
+			success: function(newTablet){
+				$newInputs=$('');
+				alert(tablet.type()+ " has been modified and added to the catalog!");
+
+			},
+			error: function(){
+
+				alert("System couldn't modify the item to the catalog. Please try again later!")
+			}
+
+
+
+		});
+
+	}
+
+		
+
+	});
 </script>
 
 </body>
