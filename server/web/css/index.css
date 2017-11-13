@@ -23,8 +23,6 @@ nav {
 	padding: 10px 0;
 	margin: 0 90px 0;
 	
-	
-	
 }
 
 nav ul{ 
@@ -52,4 +50,10 @@ nav a:hover {
 }
 fieldset{
 	text-align: center;
+}
+#admin_table tr td:first-child{
+	text-align:left;
+}
+#admin_table tr td:nth-child(2) input{
+	width:160px;
 }
