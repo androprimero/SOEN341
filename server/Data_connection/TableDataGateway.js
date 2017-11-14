@@ -59,6 +59,16 @@ function typeIntToTableString(type){
 	}
 	return typeInt
 }
+function tableStringToTypeInt(type){
+	var typeInt
+	switch(type){
+		case 'desktops' : typeInt=1;break;
+		case 'monitors' : typeInt=2;break;
+		case 'laptops' : typeInt=3;break;
+		case 'tablets' : typeInt=4;break;
+	}
+	return typeInt
+}
 function getProductSpecification(conn,typeInt,key,fn){
 	conn.query("select * from "+typeIntToTableString(typeInt)+" where specification_key = "+key,function(err,res){
 		if(err){
@@ -305,4 +315,73 @@ TableDataGateway.updateProduct = function(conn, product,fn){
 		}
 	})
 }
+TableDataGateway.getCatalog = function(conn,category,fn){
+	var typeInt="";
+	switch(category){
+		case 'desktops' : typeInt=1;break;
+		case 'monitors' : typeInt=2;break;
+		case 'laptops' : typeInt=3;break;
+		case 'tablets' : typeInt=4;break;
+	}
+	//console.log(typeInt);
+	var resultSet={};
+	resultSet.type=category
+	conn.query("SELECT * FROM items WHERE CAST(specification_id AS TEXT) LIKE '"+typeInt+"%'",function(err,res){
+		if(err){
+			console.log(err);
+			fn(null);
+		}
+		else{
+			conn.query("select * from "+category,function(err_1,res_1){
+				console.log(res.rows);
+				console.log(res_1.rows);
+				assembleItemWithSpecification(res.rows,res_1.rows,typeInt,function(result){
+					//console.log("//////////////////////////////////////////////////////")
+					//console.log(result);
+					resultSet.rows=result;
+					fn(resultSet);
+				})
+			})
+			
+		}
+	})
+}
+function assembleItemWithSpecification (items,specifiactions,typeInt,fn){
+	var assembled = [];
+	for(var i = 0; i<items.length;i++){
+		var key = items[i].specification_id%10000;
+		var index = searchLocalSpecification(specifiactions,key)
+		if(key>-1){
+			var product = pgRowResultToObjectProduct(items[i].model_number,typeInt,specifiactions[index]);
+			assembled.push(product);
+		}
+	}
+	//var index = searchLocalSpecification(specifiactions,4)
+	//console.log(index);
+	fn(assembled);
+}
+function searchLocalSpecification(specifiactions,key){
+	for(var i=0; i<specifiactions.length;i++){
+		if(specifiactions[i].specification_key==key){
+			return i;
+		}
+	}
+	return -1;
+}
+// function addSpecifications(conn, resultSet, rows, typeInt, fn){
+	// for(var i =0; i<rows.length;i++){
+		// var key = (rows[i].specification_id)%10000;
+		// var model_number = rows[i].model_number
+		// getProductSpecification(conn,typeInt,key,function(pg_row_result){
+			// if(pg_row_result!=null) {
+				// var product = pgRowResultToObjectProduct(model_number,typeInt,key, pg_row_result);
+//				console.log(product);
+				// resultSet.rows.push(product);
+				// console.log("DURING CPROCESS");
+				// console.log(resultSet.rows);
+			// }
+		// })
+	// }
+	// fn(resultSet);
+// }
 module.exports = TableDataGateway;

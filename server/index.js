@@ -45,6 +45,21 @@ app.get("/Hello",function(req,res){
 	TableDataGateway.test();
 	res.end();
 })
+app.get("/get/:category",function(req,res){
+	res.setHeader("Content-Type","application/json");
+	var category = req.params.category;
+	TableDataGateway.getCatalog(conn, category, function(result){
+		res.status(200);
+		if(result){
+			var el = JSON.stringify(result,null,"\t");
+			console.log(result);
+			res.end(el);	
+		}
+		else{
+			res.end("{}",null,"\t");
+		}
+	})
+})
 app.get("/verifyProduct/byModelNumber/:nm",function(req,res){
 	console.log("requested Made");
 	res.setHeader("Content-Type","application/json");
