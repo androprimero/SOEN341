@@ -1,25 +1,7 @@
 $.getScript("js/Product.js");
 function userWebInteraction(control){
 	controller = control;
-	// varibales
-	this.$type = $('#typeInput');
-	this.$price = $('#priceInput');
-	this.$weight = $('#weightInput');
-	this.$brand = $('#brandInput');
-	this.$model = $('#modelInput');
-	this.$cpuCore = $('#cpuCoreInput');
-	this.$Battery = $('#batteryInput');
-	this.$os = $('#osInput');
-	this.$camera = $('#cameraInput');
-	this.$ram = $('#ramInput');
-	this.$processor = $('#processorInput');
-	this.$hardDriveSize = $('#hardDriveSizeInput');
-	this.$screenSize = $('#screenSizeInput');
-	this.$width = $('#widthInput');
-	this.$height = $('#heightInput');
-	this.$depth = $('#depthInput');
-	this.urlObj='';
-	this.object;
+	var latest_res;
 	// functions
 	this.startMonitoring = function (){
 		// verify Item
@@ -117,6 +99,75 @@ function userWebInteraction(control){
 				placeTabletInForm(emptyTablet)
 			}
 		})
+		//catalog hide/show function
+		$("#results").hide();
+		$("#filtertablets").hide();
+		$("#filterdesktops").hide();
+		$("#filtermonitors").hide();
+		$("#filterlaptops").hide();
+	  	$("#specifications").hide();
+	   	$("#submit").on('click',function(){
+	        if ($("#categories").val()=="tablet"){
+	        	$("#filtertablets").show();
+	     	   	$("#filterdesktops").hide();
+	     		$("#filtermonitors").hide();
+	     		$("#filterlaptops").hide();
+	          	$("#specifications").show();
+	          	$("#results").show();
+	        }
+	        else if ($("#categories").val()=="desktop"){
+	        	$("#filterdesktops").show();
+	        	$("#filtertablets").hide();
+				$("#filtermonitors").hide();
+				$("#filterlaptops").hide();
+	       		$("#specifications").show();
+	      		$("#results").show();
+	        }
+	        else if ($("#categories").val()=="monitor"){
+	        	$("#filtermonitors").show();
+	        	$("#filtertablets").hide();
+				$("#filterdesktops").hide();
+				$("#filterlaptops").hide();
+	       		$("#specifications").show();
+	       		$("#results").show();
+	        }
+	        else if ($("#categories").val()=="laptop"){
+	        	$("#filterlaptops").show();
+	        	$("#filtertablets").hide();
+				$("#filterdesktops").hide();
+				$("#filtermonitors").hide();
+	       		$("#specifications").show();
+	       		$("#results").show();
+	        }
+	        controller.ViewInventory($("#categories").val(), function(results){
+	        	alert(JSON.stringify(results, null, "\t"));
+	        	latest_res= results;
+	        	$("#displayResults").empty();
+	        	$("#displayResults").append("<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>");
+	        	if (results.rows.length>0) {
+	        		for (var i = 0; i < results.rows.length; i++) {
+	        			$("#displayResults").append("<tr class='res'><td class='indexNumber'>"+(i + 1)+"</td><td>"+ results.rows[i].BrandName +"</td><td>"+ results.rows[i].Model_Number +"</td><td>"+ results.rows[i].price +"</td></tr>");
+	        		}
+	        	}
+	        })
+	    });
+	    $("#displayResults").delegate("tr.res", "click", function(){
+	    	var myIndex =$(this).find(".indexNumber").html();
+	    	var myItem = latest_res.rows[myIndex-1]
+	    	myItem= Item.JSONToObject(myItem);
+	    	alert(JSON.stringify(myItem));
+	    	displayInputShow();
+	    	 switch (myItem.typeInt){
+	    	 	case 1 : placeDesktopInForm(myItem);break;
+						case 2 : placeMonitorInForm(myItem);break;
+						case 3 : placeLaptopInForm(myItem);break;
+						case 4 : placeTabletInForm(myItem);break;
+	    	 }
+	    })
+	    
+
+	   //end of monitor
+
 	}
 	this.test = function(){
 		alert("fromt lisnter");

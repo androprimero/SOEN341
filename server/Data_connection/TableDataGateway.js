@@ -86,6 +86,8 @@ function getProductSpecification(conn,typeInt,key,fn){
 	})
 }
 function pgRowResultToObjectProduct(Model_Number,typeInt,pg_row_result){
+	console.log("///////////////////////////////////")
+	console.log(pg_row_result);
 	switch(typeInt){
 		case 1 : return new Desktop(Model_Number,pg_row_result.price,pg_row_result.weight,pg_row_result.brand,pg_row_result.hard_drive_size,pg_row_result.ram,pg_row_result.cpu_core,pg_row_result.width+" x "+pg_row_result.height+" x "+pg_row_result.depth+" cm",pg_row_result.processor);
 		case 2 : return new Monitor(Model_Number, pg_row_result.price,pg_row_result.weight,pg_row_result.brand,pg_row_result.screen_size);
@@ -324,8 +326,10 @@ TableDataGateway.getCatalog = function(conn,category,fn){
 		case 'tablets' : typeInt=4;break;
 	}
 	//console.log(typeInt);
+	console.log("type chosen is " + typeInt);
 	var resultSet={};
 	resultSet.type=category
+	resultSet.typeInt= typeInt
 	conn.query("SELECT * FROM items WHERE CAST(specification_id AS TEXT) LIKE '"+typeInt+"%'",function(err,res){
 		if(err){
 			console.log(err);
@@ -334,6 +338,7 @@ TableDataGateway.getCatalog = function(conn,category,fn){
 		else{
 			conn.query("select * from "+category,function(err_1,res_1){
 				console.log(res.rows);
+				console.log("/////From spec/////////");
 				console.log(res_1.rows);
 				assembleItemWithSpecification(res.rows,res_1.rows,typeInt,function(result){
 					//console.log("//////////////////////////////////////////////////////")

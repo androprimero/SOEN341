@@ -31,6 +31,20 @@ function Controller(){
 			fn(result);
 		})
 	}
+	this.ViewInventory= function(type,fn){
+		var theUrl;
+		switch(type){
+			case 'tablet' : theUrl="/get/tablets"; break;
+			case 'desktop' : theUrl="/get/desktops"; break;
+			case 'monitor' : theUrl="/get/monitors"; break;
+			case 'laptop' : theUrl="/get/laptops"; break;
+		}
+		ajaxGET(theUrl,function(result){
+			fn(result);
+
+		})
+	}
+
 	this.test=function(){
 		alert("oke_2")
 	}
