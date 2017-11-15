@@ -3,52 +3,13 @@
 <html>
 <head>
 	<title> Catalog Page </title>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="css/index.css">
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-	<script>
-$(document).ready(function(){
-	$("#tablets").hide();
-	$("#desktops").hide();
-	$("#monitors").hide();
-	$("#laptops").hide();
-  $("#specifications").hide();
-    $("form").submit(function(){
-        if ($("#categories").val()=="tablets"){
-        	$("#tablets").show();
-     	   	$("#desktops").hide();
-     		$("#monitors").hide();
-     		$("#laptops").hide();
-          $("#specifications").show();
-        }
-          if ($("#categories").val()=="desktops"){
-        	$("#desktops").show();
-        	$("#tablets").hide();
-			$("#monitors").hide();
-			$("#laptops").hide();
-       $("#specifications").show();
-        }
-        if ($("#categories").val()=="monitors"){
-        	$("#monitors").show();
-        	$("#tablets").hide();
-			$("#desktops").hide();
-			$("#laptops").hide();
-       $("#specifications").show();
-        }
-          if ($("#categories").val()=="laptops"){
-        	$("#laptops").show();
-        	$("#tablets").hide();
-			$("#desktops").hide();
-			$("#monitors").hide();
-       $("#specifications").show();
-        }
-        
-    });
-});
-</script>
 </head>
 
 
 <body>
+	<div id="test">TEST</div>
 
 <header id="sticker">
       <nav>
@@ -65,26 +26,123 @@ $(document).ready(function(){
 <fieldset>
 	<legend>Catalog</legend>
 
-  <div id="specifications" style="float:right; width:50%;"> 
-    <h3> Product Specifications </h3> 
-  </div>
+  <form id="specifications" style="float:right; width:50%;"> 
+  	<h3>Product Specifications</h3>
+    <table id="admin_table">
+			<tr>
+				<td>Model Number</td>
+				<td><input id="model_number" type="text" name="type" value="elmo" placeholder="Enter Model Number" readonly></td>
+			</tr>
+			<tr id="type">
+				<td>Type </td>
+				<!-- <td><input id="typeInput" type="text" name="type" placeholder="Enter Item Type"></td> -->
+				<td><input id="typeInput" type="text" name="type" placeholder="Enter Item Type" readonly></td>
+			</tr>
+			<tr id="price">
+				<td>Price:</td>
+				<td><input id="priceInput" type="text" name="price" placeholder="Enter Item Price" readonly></td>
+			</tr>
+			<tr id="weight">
+				<td>Weight:</td>
+				<td><input id="weightInput" type="text" name="weight" placeholder="Enter Item Weight" readonly></td>
+			</tr>
+			<tr id="brand">
+				<td>Brand:</td>
+				<td><input id="brandInput" type="text" name="brand" placeholder="Enter Item Brand" readonly></td>
+			</tr>
+			<tr id="cpu_core">
+				<td>CPU Core:</td>
+				<td><input id="cpuCoreInput" type="text" name="cpuCore" placeholder="Enter Item CPU Core" readonly></td>
+			</tr>
+			<tr id="battery">
+				<td>Battery:</td>
+				<td><input id="batteryInput" type="text" name="Battery" placeholder="Enter Item Battery" readonly></td>
+			</tr>
+			<tr id="os">
+				<td>OS:</td>
+				<td><input id="osInput" type="text" name="os" placeholder="Enter Item OS" readonly></td>
+			</tr>
+			<tr id="camera">
+				<td>Camera:</td>
+				<td><input id="cameraInput" type="text" name="camera" placeholder="Enter Item Camera" readonly></td>
+			</tr>
+			<tr id="ram">
+				<td>Ram:</td>
+				<td><input id="ramInput" type="text" name="ram" placeholder="Enter Item Ram" readonly></td>
+			</tr>
+			<tr id="processor">
+				<td>Processor:</td>
+				<td><input id="processorInput" type="text" name="processor" placeholder="Enter Item Processor" readonly></td>
+			</tr>
+			<tr id="hard_drive_size">
+				<td>Hard Drive Size:</td>
+				<td><input id="hardDriveSizeInput" type="text" name="hardDriveSize" placeholder="Enter Item Hard Drive Size" readonly></td>
+			</tr>
+			<tr id="screen_size">
+				<td>Screen Size:</td>
+				<td><input id="sizeInput" type="text" name="screenSize" placeholder="Enter Item Screen Size" readonly></td>
+			</tr>
+			<tr id="width">
+				<td>Width:</td>
+				<td><input id="widthInput" type="text" name="width" placeholder="Enter Item Width" readonly> </td>
+			</tr>
+			<tr id="height">
+				<td>Height:</td>
+				<td><input id="heightInput" type="text" name="height" placeholder="Enter Item Height" readonly> </td>
+			</tr>
+			<tr id="depth">
+				<td>Depth:</td>
+				<td><input id="depthInput" type="text" name="depth" placeholder="Enter Item Depth" readonly></td>
+			</tr>
+		</table>
+  </form>
 
 	<form id="form" style="float:left; width:50%;" action="function()">
 		Select a category: 
   <select name="categories" id="categories">
-    <option value="tablets">Tablets</option>
-    <option value="desktops">Desktops</option>
-    <option value="monitors">Monitors</option>
-    <option value="laptops">Laptops</option>
+    <option value="tablet">Tablets</option>
+    <option value="desktop">Desktops</option>
+    <option value="monitor">Monitors</option>
+    <option value="laptop">Laptops</option>
   </select>
   <br><br>
-<input type="submit" value="Show results">
+<input id="submit" type="button" value="Show results">
 </form>
 
-<field id="tablets">Show Tablets</field>
-<field id="desktops">Show Desktops</field>
-<field id="monitors">Show Monitors</field>
-<field id="laptops">Show Laptops</field>
+<field id="filtertablets">
+	<p>tablets filtering</p>
+</field>
+
+<field id="filterdesktops">
+	<p>desktops filtering</p>
+</field>
+
+<field id="filtermonitors">
+	<p>monitors filtering</p>
+</field>
+
+<field id="filterlaptops">
+	<p>laptops filtering</p>
+</field>
+
+<field id="results">
+	<table id="displayResults">
+		<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>	
+		
+	</table>
+</field>
+
 </fieldset>
+
+<!-- add Product Items classes -->
+<script type="js/Product.js"></script>
+<!-- add Controller -->
+<script src="js/controller.js"> </script>
+<script src="js/userWebInteraction.js"> </script>
+<script src="js/main.js"> </script>
+
+
+
+
 </body>
 </html>
