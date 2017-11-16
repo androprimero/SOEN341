@@ -3,19 +3,19 @@
 <html>
 <head>
 	<title> Catalog Page </title>
-  <link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/index.css">
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
 </head>
 
 
 <body>
-	<div id="test">TEST</div>
-
 <header id="sticker">
       <nav>
         <ul>
           <li> <a href="index.html"> <i class="fa fa-home"></i>Home</a> </li>
           <li> <a href="catalog.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Catalog</a></li>
+          <li> <a href="wishlist.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Wishlist</a></li>
           <li> <a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i>Log In</a> </li>
           <li> <a href="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a> </li>
           <li> <a href="register.html"> <i class="fa fa-user" aria-hidden="true"></i>Register</a> </li>
@@ -95,6 +95,8 @@
 				<td><input id="depthInput" type="text" name="depth" placeholder="Enter Item Depth" readonly></td>
 			</tr>
 		</table>
+	<input id="addWishlist" type="button" value="Add to Wishlist">
+
   </form>
 
 	<form id="form" style="float:left; width:50%;" action="function()">
