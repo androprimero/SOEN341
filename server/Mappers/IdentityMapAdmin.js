@@ -4,8 +4,8 @@
 var path = require('path');
 var Product = require(path.join(__dirname, '..', 'Products/Product.js'));
 var arrayProducts = [];
-function IdentityMapAdmin(){}
-IdentityMapAdmin.addProduct = function (product){
+function IdentityMap(){}
+IdentityMap.addProduct = function (product){
 	if(product.hasOwnProperty('Model_Number')){
 		if(arrayProducts.length === 0){
 			arrayProducts = new Array(product);
@@ -16,7 +16,7 @@ IdentityMapAdmin.addProduct = function (product){
 		console.log("Attemp to add products only");
 	}
 };
-IdentityMapAdmin.deleteProduct = function (ModelNumber){
+IdentityMap.deleteProduct = function (ModelNumber){
 	var i = 0;
 	var found = false;
 	var pos = 0;
@@ -32,7 +32,7 @@ IdentityMapAdmin.deleteProduct = function (ModelNumber){
 	}
 	return found;
 };
-IdentityMapAdmin.findProduct = function(ModelNumber){
+IdentityMap.findProduct = function(ModelNumber){
 	var i = 0;
 	while((i < arrayProducts.length)&&(arrayProducts[i].Model_Number != ModelNumber)){
 		i++;
@@ -43,4 +43,4 @@ IdentityMapAdmin.findProduct = function(ModelNumber){
 	}
 	return arrayProducts[i];
 };
-module.exports = IdentityMapAdmin;
+module.exports = IdentityMap;
