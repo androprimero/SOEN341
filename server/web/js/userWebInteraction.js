@@ -168,6 +168,44 @@ function userWebInteraction(control){
 
 	   //end of monitor
 
+	   //random ordering
+	   $("#random").on('click',function(){
+		var array = [];
+		var headers = ["Index", "BrandName", "Model_Number", "price"];
+
+	$('#results tr').has('td').each(function() {
+    	var arrayItem = {};
+   	 $('td', $(this)).each(function(index, item) {
+        arrayItem[headers[index]] = $(item).html();
+    });
+    array.push(arrayItem);
+});
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+array= shuffle(array);
+//alert(JSON.stringify(array, null, "\t"));
+	$("#displayResults").empty();
+	$("#displayResults").append("<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>");
+	        		for (var k = 0; k < array.length; k++) {
+	        			$("#displayResults").append("<tr class='res'><td class='indexNumber'>"+array[k].Index+"</td><td>"+ array[k].BrandName +"</td><td>"+ array[k].Model_Number +"</td><td>"+ array[k].price +"</td></tr>");
+	        		}
+	})
+
+
+
+///////
 	}
 	this.test = function(){
 		alert("fromt lisnter");
