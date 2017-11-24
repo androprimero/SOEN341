@@ -9,7 +9,7 @@ function userWebInteraction(control){
 			$("#type_action").show();
 			$("#description_option").show();
 			var model_number = $('.modelNumberField').val();
-			controller.verifyItem(model_number,function(result){
+			controller.verifyProduct(model_number,function(result){
 				displayInputShow();
 				//model found
 				if(!jQuery.isEmptyObject(result)){

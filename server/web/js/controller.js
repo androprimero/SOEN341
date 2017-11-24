@@ -1,5 +1,5 @@
 function Controller(){
-	this.verifyItem=function(modelNumber,fn){
+	this.verifyProduct=function(modelNumber,fn){
 		var theUrl = '/verifyProduct/byModelNumber/'+modelNumber;
 		ajaxGET(theUrl,function(result){
 			fn(result)
