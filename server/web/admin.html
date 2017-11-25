@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="index.css">
-
+<link rel="stylesheet" href="css/index.css">
+<title>Adaleh</title>
 </head>
 <body>
 	<div class="row">
@@ -14,6 +14,7 @@
 				<ul>
 					<li> <a href="index.html"> <i class="fa fa-home"></i>Home</a> </li>
 					<li> <a href="catalog.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Catalog</a></li>
+					<li> <a href="wishlist.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Wishlist</a></li>
 					<li> <a href="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a> </li>
 					<li> <a href="register.html"> <i class="fa fa-user" aria-hidden="true"></i>Register</a> </li>
 					<li> <a href="admin.html"> <i class="fa fa-user" aria-hidden="true"></i>Admin</a> </li>
@@ -25,23 +26,99 @@
     <legend>Consult Product:</legend>
     Model Number:
     <input class="modelNumberField" type="text" name="modelnumber" placeholder="Model Number">
-    <input id="modelNumberSubmit" type="button" value="Verify">
+    <input id="modelNumberSubmit" type="button" value="Verify Item">
+	<div id="description_option"  style="display:none">
+		<table id="admin_table">
+			<tr>
+				<td>Model Number</td>
+				<td><input id="model_number" type="text" name="type" value="elmo" placeholder="Enter Model Number" readonly></td>
+			</tr>
+			<tr id="type">
+				<td>Type </td>
+				<!-- <td><input id="typeInput" type="text" name="type" placeholder="Enter Item Type"></td> -->
+				<td>
+					<select id ="typeInput">
+						<option value="Desktop">Desktop</option>
+						<option value="Monitor">Monitor</option>
+						<option value="laptop">laptop</option>
+						<option value="Tablet">Tablet</option>
+					</select>
+				</td>
+			</tr>
+			<tr id="price">
+				<td>Price:</td>
+				<td><input id="priceInput" type="text" name="price" placeholder="Enter Item Price"></td>
+			</tr>
+			<tr id="weight">
+				<td>Weight:</td>
+				<td><input id="weightInput" type="text" name="weight" placeholder="Enter Item Weight"></td>
+			</tr>
+			<tr id="brand">
+				<td>Brand:</td>
+				<td><input id="brandInput" type="text" name="brand" placeholder="Enter Item Brand"></td>
+			</tr>
+			<tr id="cpu_core">
+				<td>CPU Core:</td>
+				<td><input id="cpuCoreInput" type="text" name="cpuCore" placeholder="Enter Item CPU Core"></td>
+			</tr>
+			<tr id="battery">
+				<td>Battery:</td>
+				<td><input id="batteryInput" type="text" name="Battery" placeholder="Enter Item Battery"></td>
+			</tr>
+			<tr id="os">
+				<td>OS:</td>
+				<td><input id="osInput" type="text" name="os" placeholder="Enter Item OS"></td>
+			</tr>
+			<tr id="camera">
+				<td>Camera:</td>
+				<td><input id="cameraInput" type="text" name="camera" placeholder="Enter Item Camera"></td>
+			</tr>
+			<tr id="ram">
+				<td>Ram:</td>
+				<td><input id="ramInput" type="text" name="ram" placeholder="Enter Item Ram"></td>
+			</tr>
+			<tr id="processor">
+				<td>Processor:</td>
+				<td><input id="processorInput" type="text" name="processor" placeholder="Enter Item Processor"></td>
+			</tr>
+			<tr id="hard_drive_size">
+				<td>Hard Drive Size:</td>
+				<td><input id="hardDriveSizeInput" type="text" name="hardDriveSize" placeholder="Enter Item Hard Drive Size"></td>
+			</tr>
+			<tr id="screen_size">
+				<td>Screen Size:</td>
+				<td><input id="sizeInput" type="text" name="screenSize" placeholder="Enter Item Screen Size"></td>
+			</tr>
+			<tr id="width">
+				<td>Width:</td>
+				<td><input id="widthInput" type="text" name="width" placeholder="Enter Item Width"> </td>
+			</tr>
+			<tr id="height">
+				<td>Height:</td>
+				<td><input id="heightInput" type="text" name="height" placeholder="Enter Item Height"> </td>
+			</tr>
+			<tr id="depth">
+				<td>Depth:</td>
+				<td><input id="depthInput" type="text" name="depth" placeholder="Enter Item Depth"></td>
+			</tr>
+		</table>
+		<div id="add_option">
+			<input id="add_item" type="button" value="Add This Item">
+		</div>
+		<div id="item_option">
+			<input id="modifyItemSubmit" type="button" value="Update This Item">
+			<input id="DeleteSubmit" type="button" value="Delete This Item">
+		</div>
+	</div>
   </fieldset>
 </form>
+<!-- Enable jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="product.js"></script>
-<script src="controller.js"> </script>
-<script>
-	
-	
-		
-
-
-
-
-
-
-</script>
-
+<!-- add Product Items classes -->
+<script type="js/Product.js"></script>
+<!-- add Controller -->
+<script src="js/controller.js"> </script>
+<script src="js/userWebInteraction.js"> </script>
+<script src="js/main.js"> </script>
 </body>
 </html>
