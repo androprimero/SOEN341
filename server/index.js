@@ -103,4 +103,35 @@ app.post("/updateProduct",function(req,res){
 		}
 	})
 })
+app.post('/signin', function(req,res){
+	res.setHeader("Content-Type","text/plain");
+	myUsername= req.body.username;
+	myPassword= req.body.password;
+	Mapper.signIn(myUsername,myPassword, function(result){
+		if(result != null){    
+			res.status(200);
+			res.end(result);
+		}
+		else{
+			res.status(401);
+			res.end("Unsuccessful login");
+		}
+	});
+});
+app.post('/signout', function(req,res){
+	res.setHeader("Content-Type","text/plain");
+	myToken = req.body.token;
+	console.log(myToken);
+	Mapper.signOut(myToken, function(result){
+		if(result){    
+			res.status(200);
+			res.end("Logout is Successful");
+		}
+		else{
+			res.status(401);
+			res.end("Unsuccessful Logout");
+		}
+	});
+});
+
 app.listen(process.env.PORT || 3000);
