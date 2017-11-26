@@ -169,5 +169,39 @@ app.post('/signout', function(req,res){
 		}
 	});
 });
+app.post('/wishlistAdd', function(req,res){
+	res.setHeader("Content-Type","text/plain");
+	var wishlistProduct = JSON.parse(req.body.data.product);
+	var userID = JSON.parse(req.body.data.userID);
+	var product = Item.JSONToObject(wishlistProduct);
+	console.log(product);
+	Mapper.insertToWishlist(userID,product, function(result){
+		if(result){
+			res.status(200);
+			res.end("Item Added to the Wishlist");
+		}
+		else{
+			res.status(400);
+			res.end("Error while Adding the Item to the Wishlist");
+		}
+	});
+});
+app.post('/wishlistDelete', function(req,res){
+	res.setHeader("Content-Type","text/plain");
+	var model_number = JSON.parse(req.body.data.model_number);
+	var userID = JSON.parse(req.body.data.userID);
+	console.log(model_number);
+	console.log(userID);
+	Mapper.removeFromWishlist(userID,model_number, function(result){
+		if(result){
+			res.status(200);
+			res.end("Item has been Deleted from Wishlist");
+		}
+		else{
+			res.status(400);
+			res.end("Error while Deleting the Item from the Wishlist");
+		}
+	});
+});
 
 app.listen(process.env.PORT || 3000);
