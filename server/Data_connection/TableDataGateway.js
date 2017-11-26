@@ -445,12 +445,12 @@ TableDataGateway.login= function (email,pass,fn){
 				var admin = new Admin(result.rows[0].id, result.rows[0].firstname, result.rows[0].lastname,result.rows[0].homeaddress, result.rows[0].email, result.rows[0].phonenumber,result.rows[0].password)
 				console.log("isAdmin");
 				//console.log(admin);
-				fn(admin)
+				fn(admin,true)
 			}
 			else{
 				var client = new Client(result.rows[0].id, result.rows[0].firstname, result.rows[0].lastname,result.rows[0].homeaddress, result.rows[0].email, result.rows[0].phonenumber,result.rows[0].password)
 				console.log("is not");
-				fn(client);
+				fn(client,false);
 			}
 		}
 	})

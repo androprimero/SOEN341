@@ -15,6 +15,7 @@ var path = require('path');
 var app = express();app.use(bodyParser.urlencoded({ extended: true }));
 var p= new Monitor("ERT124", 22,"1.5 kg","Asus",22);
 //Create Connection to Postgress Database
+//smapleTest
 var conn = new PGConnection.Client({
 		connectionString:"postgres://bccoxbtohkbpnf:b2fe7746edc73cff61b62b048b9be98007f910b8474cfc92b56648d571a8a40e@ec2-107-22-235-167.compute-1.amazonaws.com:5432/db7gah347b7r9s",
 		ssl:true
@@ -158,18 +159,25 @@ app.post("/commitAdmin",function(req,res){
 		}
 	})
 })
+//Login
 app.post('/signin', function(req,res){
 	res.setHeader("Content-Type","text/plain");
-	myUsername= req.body.username;
-	myPassword= req.body.password;
+	var login = JSON.parse(req.body.data);
+	myUsername= login.email;
+	myPassword= login.pass;
+	console.log(myUsername);
+	console.log(myPassword);
+	console.log("IN");
 	Mapper.signIn(myUsername,myPassword, function(token){
+		console.log(token)
 		if(token != null){    
 			res.status(200);
+			console.log(token);
 			res.end(token);
 		}
 		else{
 			res.status(401);
-			res.end("Unsuccessful login");
+			res.end("False");
 		}
 	});
 });
