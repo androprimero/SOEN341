@@ -41,6 +41,15 @@ Mapper.addClient(c3)
 Mapper.addClient(c4)
 myWishlist.printArray();
 myUnitOfWorkWishtlist.printArray();
+// TableDataGateway.login("me@ground.down", "legoo",function(user){
+	// if(user!=null){
+		// console.log(user)
+	// }
+	// else{
+		// console.log("notot")
+	// }
+	
+// })
 // myW.printArray();
 app.use(express.static(path.join(__dirname, 'Web')));
 app.get("/Hello",function(req,res){
@@ -153,10 +162,10 @@ app.post('/signin', function(req,res){
 	res.setHeader("Content-Type","text/plain");
 	myUsername= req.body.username;
 	myPassword= req.body.password;
-	Mapper.signIn(myUsername,myPassword, function(result){
-		if(result != null){    
+	Mapper.signIn(myUsername,myPassword, function(token){
+		if(token != null){    
 			res.status(200);
-			res.end(result);
+			res.end(token);
 		}
 		else{
 			res.status(401);

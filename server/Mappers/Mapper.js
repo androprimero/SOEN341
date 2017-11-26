@@ -138,21 +138,27 @@ Mapper.removeFromWishlist = function(userID,model_number){
 Mapper.signUp = function(myUsername,myPassword,myFirstName,myLastName,myAdress,myEmail,myPhoneNumber,fn){
 	
 }
-Mapper.signIn = function (myUsername, myPassword, fn) {
-	if(myPassword=="password"){
-		jwt.sign({username: myUsername, password: myPassword}, 'soen341fall2017', function (err,token){
-			if(err){
-				console.log(err);
-				fn(null);
-			}
-			else{
-				fn(token);
-			}
-		});
-	}
-	else{
-		fn(null)
-	}
+Mapper.signIn = function (email, myPassword, fn) {
+	TableDataGateway.login(email, myPassword,function(user){
+		if(user!=null){
+			console.log(user)
+			jwt.sign(JSON.stringify(user), 'soen341fall2017', function (err,token){
+				if(err){
+					//console.log(err);
+					console.log(err);
+					fn(null);
+				}
+				else{
+					console.log(token);
+					fn(token);
+				}
+			});
+		}
+		else{
+			fn("{}");
+		}
+		
+	})
 }
 Mapper.signOut = function (token, fn) {
 	if(verify(token) != null){

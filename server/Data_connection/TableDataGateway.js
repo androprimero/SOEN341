@@ -1,5 +1,7 @@
 var path = require('path');
 var {Desktop, Monitor, laptop, Tablet} = require(path.join(__dirname, '..', 'Products/Product.js'));
+var Client = require(path.join(__dirname, '..', 'Users/User.js'));
+var Admin = require(path.join(__dirname, '..', 'Users/Administrator.js'));
 //Class TableDataGateway
 function TableDataGateway(connection){
 	conn=connection;
@@ -431,6 +433,27 @@ TableDataGateway.deleteWishlistProduct=function(id,wish,fn){
 	else{
 		fn(true)
 	}
+}
+TableDataGateway.login= function (email,pass,fn){
+	conn.query("select * from users where email = '"+email+"' and password = '"+pass+"'",function(err,result){
+		if(err || result.rows.length<1){
+			fn(null)
+		}
+		else{
+			//IdNumber,FirstName,LastName,Address,EmailAddress,PhoneNumber,Password
+			if(result.rows[0].admin){
+				var admin = new Admin(result.rows[0].id, result.rows[0].firstname, result.rows[0].lastname,result.rows[0].homeaddress, result.rows[0].email, result.rows[0].phonenumber,result.rows[0].password)
+				console.log("isAdmin");
+				//console.log(admin);
+				fn(admin)
+			}
+			else{
+				var client = new Client(result.rows[0].id, result.rows[0].firstname, result.rows[0].lastname,result.rows[0].homeaddress, result.rows[0].email, result.rows[0].phonenumber,result.rows[0].password)
+				console.log("is not");
+				fn(client);
+			}
+		}
+	})
 }
 // function addSpecifications(conn, resultSet, rows, typeInt, fn){
 	// for(var i =0; i<rows.length;i++){
