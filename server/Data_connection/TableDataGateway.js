@@ -1,5 +1,7 @@
 var path = require('path');
 var {Desktop, Monitor, laptop, Tablet} = require(path.join(__dirname, '..', 'Products/Product.js'));
+var Client = require(path.join(__dirname, '..', 'Users/User.js'));
+var Admin = require(path.join(__dirname, '..', 'Users/Administrator.js'));
 //Class TableDataGateway
 function TableDataGateway(connection){
 	conn=connection;
@@ -377,6 +379,81 @@ function searchLocalSpecification(specifiactions,key){
 		}
 	}
 	return -1;
+}
+TableDataGateway.saveWislistNew=function(id,wish,fn){
+	if(wish.length>0){
+		//insert into wishlistrecords values ('123','44444');
+		var sql="";
+		for(var i =0;i<wish.length;i++){
+			sql+="( '"+id+"', '"+wish[i]+"' ) "
+			if(i<(wish.length-1)){
+				sql+=", "
+			}
+		}
+		conn.query("insert into wishlistrecords values "+sql,function(err,res){
+			if(err){
+				console.log(err);
+				fn(false)
+			}
+			else{
+				fn(true)
+			}
+		})
+	}
+	else{
+		fn(true)
+	}
+}
+TableDataGateway.deleteWishlistProduct=function(id,wish,fn){
+	if(wish.length>0){
+		//delete from wishlistrecords where user_id IN ('3', '3') AND model_number IN ('ELMO','TEDD');
+		var sql="";
+		var sql_0="";
+		var sql_1=""
+		for(var i =0;i<wish.length;i++){
+			sql_0+="'"+id+"'"
+			sql_1+="'"+wish[i]+"'"
+			if(i<(wish.length-1)){
+				sql_0+=", "
+				sql_1+=", "
+			}
+		}
+		console.log("delete from wishlistrecords where user_id IN ("+sql_0+") AND model_number IN ("+sql_1+")")
+		conn.query("delete from wishlistrecords where user_id IN ("+sql_0+") AND model_number IN ("+sql_1+")",function(err,res){
+			if(err){
+				console.log(err);
+				fn(false)
+			}
+			else{
+				fn(true)
+			}
+		})
+		console.log("DESLYTE"+wish)
+	}
+	else{
+		fn(true)
+	}
+}
+TableDataGateway.login= function (email,pass,fn){
+	conn.query("select * from users where email = '"+email+"' and password = '"+pass+"'",function(err,result){
+		if(err || result.rows.length<1){
+			fn(null)
+		}
+		else{
+			//IdNumber,FirstName,LastName,Address,EmailAddress,PhoneNumber,Password
+			if(result.rows[0].admin){
+				var admin = new Admin(result.rows[0].id, result.rows[0].firstname, result.rows[0].lastname,result.rows[0].homeaddress, result.rows[0].email, result.rows[0].phonenumber,result.rows[0].password)
+				console.log("isAdmin");
+				//console.log(admin);
+				fn(admin)
+			}
+			else{
+				var client = new Client(result.rows[0].id, result.rows[0].firstname, result.rows[0].lastname,result.rows[0].homeaddress, result.rows[0].email, result.rows[0].phonenumber,result.rows[0].password)
+				console.log("is not");
+				fn(client);
+			}
+		}
+	})
 }
 // function addSpecifications(conn, resultSet, rows, typeInt, fn){
 	// for(var i =0; i<rows.length;i++){
