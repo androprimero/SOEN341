@@ -1,18 +1,23 @@
 var path = require('path');
 var {Desktop, Monitor, laptop, Tablet} = require(path.join(__dirname, '..', 'Products/Product.js'));
 //Class TableDataGateway
-function TableDataGateway(){};
+function TableDataGateway(connection){
+	conn=connection;
+};
 //Static Methods
-TableDataGateway.test=function(){
-	console.log("ok");
+TableDataGateway.test=function(connection){
+	conn=connection;
 }
-TableDataGateway.connect = function(conn){
+TableDataGateway.setConnection = function(connection){
+	conn = connection
+}
+TableDataGateway.connect = function(){
 	conn.connect()
 }
-TableDataGateway.closeConnection = function(conn){
+TableDataGateway.closeConnection = function(){
 	conn.end();
 }
-TableDataGateway.informationProduct = function(conn,Model_Number,fn){
+TableDataGateway.informationProduct = function(Model_Number,fn){
 	conn.query("select specification_id from items where model_number = '"+Model_Number+"'",function(err,res){
 		if(err){
 			console.log(err)
@@ -28,7 +33,7 @@ TableDataGateway.informationProduct = function(conn,Model_Number,fn){
 			console.log("IN")
 			var typeInt = Math.floor((res.rows[0].specification_id)/10000);
 			var key = (res.rows[0].specification_id)%10000;
-			getProductSpecification(conn,typeInt,key,function(pg_row_result){
+			getProductSpecification(typeInt,key,function(pg_row_result){
 				if(pg_row_result==null){
 					console.log("Product Specification Not Found");
 					fn(null);
@@ -59,7 +64,17 @@ function typeIntToTableString(type){
 	}
 	return typeInt
 }
-function getProductSpecification(conn,typeInt,key,fn){
+function tableStringToTypeInt(type){
+	var typeInt
+	switch(type){
+		case 'desktops' : typeInt=1;break;
+		case 'monitors' : typeInt=2;break;
+		case 'laptops' : typeInt=3;break;
+		case 'tablets' : typeInt=4;break;
+	}
+	return typeInt
+}
+function getProductSpecification(typeInt,key,fn){
 	conn.query("select * from "+typeIntToTableString(typeInt)+" where specification_key = "+key,function(err,res){
 		if(err){
 			console.log(err);
@@ -76,6 +91,8 @@ function getProductSpecification(conn,typeInt,key,fn){
 	})
 }
 function pgRowResultToObjectProduct(Model_Number,typeInt,pg_row_result){
+	console.log("///////////////////////////////////")
+	console.log(pg_row_result);
 	switch(typeInt){
 		case 1 : return new Desktop(Model_Number,pg_row_result.price,pg_row_result.weight,pg_row_result.brand,pg_row_result.hard_drive_size,pg_row_result.ram,pg_row_result.cpu_core,pg_row_result.width+" x "+pg_row_result.height+" x "+pg_row_result.depth+" cm",pg_row_result.processor);
 		case 2 : return new Monitor(Model_Number, pg_row_result.price,pg_row_result.weight,pg_row_result.brand,pg_row_result.screen_size);
@@ -91,7 +108,7 @@ function pgRowResultToObjectProduct(Model_Number,typeInt,pg_row_result){
 		// case "Laptop" : return 3;break
 	// }
 // }
-function insertSpecification(conn, data,fn){
+function insertSpecification(data,fn){
 	// dataToInsertValue(data,function(table,typeInt,columns, values){
 		conn.query("insert into "+data.category+" ("+data.getFields()+") values ("+data.toInsertValues()+") returning specification_key",function(err,res){
 			if(err){
@@ -103,7 +120,7 @@ function insertSpecification(conn, data,fn){
 		})
 	// })
 }
-function insertItem(conn,typeInt, model_number,key,fn){
+function insertItem(typeInt, model_number,key,fn){
 	conn.query("insert into items (model_number, specification_id) values ('"+model_number+"',"+(10000*typeInt+key)+")",function(err,res){
 		if(err){
 			console.log(err);
@@ -115,7 +132,7 @@ function insertItem(conn,typeInt, model_number,key,fn){
 		}
 	})
 }
-TableDataGateway.saveNewProduct = function(conn,product,fn){
+TableDataGateway.saveNewProduct = function(product,fn){
 	// dataToWhereClause(data,function(table, typeInt,whereClause){
 		console.log("select * from "+product.category+" where "+product.toWhereClauseValues());
 		conn.query(("select * from "+product.category+" where "+product.toWhereClauseValues()),function(err,res){
@@ -126,12 +143,12 @@ TableDataGateway.saveNewProduct = function(conn,product,fn){
 			//create new specifiaction
 			else if (res.rows.length==0){
 				console.log("New Specification");
-				insertSpecification(conn,product,function(key){
+				insertSpecification(product,function(key){
 					if(key<0){
 						fn(false);
 					}
 					else{
-						insertItem(conn,product.typeInt,product.Model_Number,key,function(status){
+						insertItem(product.typeInt,product.Model_Number,key,function(status){
 							fn(status);
 						})
 					}
@@ -141,7 +158,7 @@ TableDataGateway.saveNewProduct = function(conn,product,fn){
 			//specification exist
 			else if (res.rows.length==1){
 				console.log("Specification exist");
-				insertItem(conn, product.typeInt,product.Model_Number,res.rows[0].specification_key,function(status){
+				insertItem(product.typeInt,product.Model_Number,res.rows[0].specification_key,function(status){
 					fn(status);
 				})
 			}
@@ -152,7 +169,7 @@ TableDataGateway.saveNewProduct = function(conn,product,fn){
 		});
 	// })
 }
-function deleteFromItems(conn,Model_Number,fn){
+function deleteFromItems(Model_Number,fn){
 	conn.query("delete from items where model_number = '"+Model_Number+"'",function(err,res){
 		if(err){
 			console.log(err);
@@ -164,7 +181,7 @@ function deleteFromItems(conn,Model_Number,fn){
 		}
 	})
 }
-function deleteFromSpecification (conn,category,key,fn){
+function deleteFromSpecification (category,key,fn){
 	conn.query("delete from "+category+" where specification_key ="+key,function(err,res){
 		if(err){
 			console.log(err);
@@ -175,7 +192,7 @@ function deleteFromSpecification (conn,category,key,fn){
 		}
 	})
 }
-TableDataGateway.deleteProduct =  function(conn,Model_Number,fn){
+TableDataGateway.deleteProduct =  function(Model_Number,fn){
 	conn.query("select specification_id from items where model_number = '"+Model_Number+"' ",function(err,res){
 		if(err){
 			console.log(err);
@@ -189,7 +206,7 @@ TableDataGateway.deleteProduct =  function(conn,Model_Number,fn){
 					fn(false);
 				}
 				else if (res.rows.length>1){
-					deleteFromItems(conn,Model_Number,function(status){
+					deleteFromItems(Model_Number,function(status){
 						if(status){
 							console.log("Item delete");
 							fn(true)
@@ -204,10 +221,10 @@ TableDataGateway.deleteProduct =  function(conn,Model_Number,fn){
 					var category = typeIntToTableString(Math.floor(res.rows[0].specification_id/10000));
 					var key = res.rows[0].specification_id%10000;
 					console.log(key)
-					deleteFromSpecification(conn, category,key,function(status){
+					deleteFromSpecification(category,key,function(status){
 						if(status){
 							console.log("Item specification delete")
-							deleteFromItems(conn,Model_Number,function(status){
+							deleteFromItems(Model_Number,function(status){
 								if(status){
 									console.log("Item Delete");
 									fn(true)
@@ -231,7 +248,7 @@ TableDataGateway.deleteProduct =  function(conn,Model_Number,fn){
 		}
 	})
 }
-function getSpecification(conn,product,fn){
+function getSpecification(product,fn){
 	conn.query("select * from "+product.category+" where "+product.toWhereClauseValues(),function(err,res){
 		if(err){
 			console.log(err);
@@ -250,7 +267,7 @@ function getSpecification(conn,product,fn){
 		}
 	})
 }
-function updateItem(conn,Model_Number, specification_id,fn){
+function updateItem(Model_Number, specification_id,fn){
 	conn.query("update items set specification_id="+specification_id+" where model_number='"+Model_Number+"'",function(err,res){
 		if(err){
 			console.log(err);
@@ -262,7 +279,7 @@ function updateItem(conn,Model_Number, specification_id,fn){
 		}
 	})
 }
-TableDataGateway.updateProduct = function(conn, product,fn){
+TableDataGateway.updateProduct = function(product,fn){
 	conn.query("select * from items where model_number = '"+product.Model_Number+"'",function(err,res){
 		console.log(res);
 		if(err){
@@ -271,12 +288,12 @@ TableDataGateway.updateProduct = function(conn, product,fn){
 		}
 		else if (res.rows.length==1){
 			//console.log(product);
-			getSpecification(conn,product,function(key){
+			getSpecification(product,function(key){
 				if(key==-1){
 					console.log("create new specification");
-					insertSpecification(conn,product,function(key){
+					insertSpecification(product,function(key){
 						var specification_id=product.typeInt*10000+key;
-						updateItem(conn,product.Model_Number,specification_id,function(status){
+						updateItem(product.Model_Number,specification_id,function(status){
 							fn(status)
 						})
 					})
@@ -291,7 +308,7 @@ TableDataGateway.updateProduct = function(conn, product,fn){
 						fn(false);
 					}
 					else{
-						updateItem(conn,product.Model_Number,specification_id,function(status){
+						updateItem(product.Model_Number,specification_id,function(status){
 							fn(status)
 						})
 					}
@@ -305,4 +322,76 @@ TableDataGateway.updateProduct = function(conn, product,fn){
 		}
 	})
 }
+TableDataGateway.getCatalog = function(category,fn){
+	var typeInt="";
+	switch(category){
+		case 'desktops' : typeInt=1;break;
+		case 'monitors' : typeInt=2;break;
+		case 'laptops' : typeInt=3;break;
+		case 'tablets' : typeInt=4;break;
+	}
+	//console.log(typeInt);
+	console.log("type chosen is " + typeInt);
+	var resultSet={};
+	resultSet.type=category
+	resultSet.typeInt= typeInt
+	conn.query("SELECT * FROM items WHERE CAST(specification_id AS TEXT) LIKE '"+typeInt+"%'",function(err,res){
+		if(err){
+			console.log(err);
+			fn(null);
+		}
+		else{
+			conn.query("select * from "+category,function(err_1,res_1){
+				console.log(res.rows);
+				console.log("/////From spec/////////");
+				console.log(res_1.rows);
+				assembleItemWithSpecification(res.rows,res_1.rows,typeInt,function(result){
+					//console.log("//////////////////////////////////////////////////////")
+					//console.log(result);
+					resultSet.rows=result;
+					fn(resultSet);
+				})
+			})
+			
+		}
+	})
+}
+function assembleItemWithSpecification (items,specifiactions,typeInt,fn){
+	var assembled = [];
+	for(var i = 0; i<items.length;i++){
+		var key = items[i].specification_id%10000;
+		var index = searchLocalSpecification(specifiactions,key)
+		if(key>-1){
+			var product = pgRowResultToObjectProduct(items[i].model_number,typeInt,specifiactions[index]);
+			assembled.push(product);
+		}
+	}
+	//var index = searchLocalSpecification(specifiactions,4)
+	//console.log(index);
+	fn(assembled);
+}
+function searchLocalSpecification(specifiactions,key){
+	for(var i=0; i<specifiactions.length;i++){
+		if(specifiactions[i].specification_key==key){
+			return i;
+		}
+	}
+	return -1;
+}
+// function addSpecifications(conn, resultSet, rows, typeInt, fn){
+	// for(var i =0; i<rows.length;i++){
+		// var key = (rows[i].specification_id)%10000;
+		// var model_number = rows[i].model_number
+		// getProductSpecification(conn,typeInt,key,function(pg_row_result){
+			// if(pg_row_result!=null) {
+				// var product = pgRowResultToObjectProduct(model_number,typeInt,key, pg_row_result);
+//				console.log(product);
+				// resultSet.rows.push(product);
+				// console.log("DURING CPROCESS");
+				// console.log(resultSet.rows);
+			// }
+		// })
+	// }
+	// fn(resultSet);
+// }
 module.exports = TableDataGateway;
