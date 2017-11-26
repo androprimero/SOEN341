@@ -123,6 +123,41 @@ function userWebInteraction(control){
 				}
 			});
 		})
+		//sign Out
+		
+		//neeeds to be implemented
+		//Sign In
+		$("#loginSubmit").on('click',function(){
+			var email = $('#emailInput').val();
+			var password = $('#passwordInput').val();
+			controller.signIn(email,password,function(result){
+				if(result){
+					alert("System Login is Successful");
+					$('#catalog').click();
+					}
+				else{
+					alert("Username or Password provided is not valid");
+				}
+			});
+		});
+		//Sign Up
+		$("#registerSubmit").on('click',function(){
+			var email = $('#emailInput').val();
+			var password = $('#passwordInput').val();
+			var firstName = $('#firstNameInput').val();
+			var lastName = $('#lastNameInput').val();
+			var address = $('#addressInput').val();
+			var phoneNumber = $('#phoneNumberInput').val();
+			controller.signUp(email,password,firstName,lastName,address,phoneNumber,function(result){
+				if(result){
+					alert("System Registration has successfully completed");
+					$('#login').click();
+				}
+				else{
+					alert("This user already exists in the system");
+				}
+			});
+		});
 		//commit Save
 		$("#commitSave").on('click',function(){
 			controller.commitAdmin(function(result){

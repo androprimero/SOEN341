@@ -10,13 +10,13 @@
 <header id="sticker">
       <nav>
         <ul>
-          <li> <a href="index.html"> <i class="fa fa-home"></i>Home</a> </li>
-          <li> <a href="catalog.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Catalog</a></li>
-          <li> <a href="wishlist.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Wishlist</a></li>
-          <li> <a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i>Log In</a> </li>
-          <li> <a href="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a> </li>
-          <li> <a href="register.html"> <i class="fa fa-user" aria-hidden="true"></i>Register</a> </li>
-          <li> <a href="admin.html"> <i class="fa fa-user" aria-hidden="true"></i>Admin</a> </li>
+          <li> <a id="index" href="index.html"> <i class="fa fa-home"></i>Home</a> </li>
+          <li> <a id="catalog" href="catalog.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Catalog</a></li>
+          <li> <a id="wishlist" href="wishlist.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Wishlist</a></li>
+          <li> <a id="login" href="login.html"><i class="fa fa-sign-in" aria-hidden="true"></i>Log In</a> </li>
+          <li> <a id="logout" href="javascript:logout()"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a> </li>
+          <li> <a id="register" href="register.html"> <i class="fa fa-user" aria-hidden="true"></i>Register</a> </li>
+          <li> <a id="admin" href="admin.html"> <i class="fa fa-user" aria-hidden="true"></i>Admin</a> </li>
         </ul>
       </nav>
     </header>
@@ -24,14 +24,23 @@
     <form action="login.html">
   <fieldset id="Login">
     <legend>Login</legend>
-    Username:
-    <input class="usernameInput" type="text" name="username" placeholder="ex: Obi-Wan Kenobi">
-    <br>
-    Password:
-    <input class="passwordInput" type="password" name="password" placeholder="Enter Password">
-    <br>
+	<table id="login_table" align="center">
+		<tr>
+			<td>Enter Your Email:</td>
+			<td><input id="emailInput" type="text" name="email" placeholder="Obiwankenobi@gmail.com"></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><input id="passwordInput" type="password" name="password" placeholder="Enter Password"></td>
+		</tr>
+	</table>
     <input id="loginSubmit" type="submit" value="Login">
   </fieldset>
-
+<!-- Enable jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- add Controller -->
+<script src="js/controller.js"> </script>
+<script src="js/userWebInteraction.js"> </script>
+<script src="js/main.js"> </script>
 </body>
 </html>

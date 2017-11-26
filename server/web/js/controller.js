@@ -31,6 +31,43 @@ function Controller(){
 			fn(result);
 		})
 	}
+	this.signIn = function(email, password, fn){
+		var theUrl = '/signin';
+		var prop = {}
+	    prop.email = email;
+	    prop.password = password;
+	    var data = JSON.stringify(prop, null, "\t")
+		ajaxPOST(theUrl,data,function(result){
+			if (result){
+				fn(true);
+			}
+			else{
+				fn(false);
+			}
+		}
+	}
+	/*this.signOut = function(fn){
+		var theUrl='/signout';
+		
+	} */
+	this.signUp = function(email,password,firstName,lastName,address,phoneNumber,fn){
+		var theUrl = '/signup';
+		var prop = {}
+	    prop.email = email;
+	    prop.password = password;
+		prop.firstName = firstName;
+		prop.lastName = lastName;
+		prop.address = address;
+		prop.phoneNumber = phoneNumber;
+	    var data = JSON.stringify(prop, null, "\t")
+		ajaxPOST(theUrl,data,function(result){
+			if (result){
+				fn(true);
+			else{
+				fn(false);
+			}
+		}
+	}
 	this.commitAdmin = function(fn){
 		ajaxPOST("/commitAdmin","{}",function(result){
 			fn(result);
