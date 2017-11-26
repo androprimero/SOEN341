@@ -3,13 +3,13 @@
  */
 var path = require('path');
 var Product = require(path.join(__dirname, '..', 'Products/Product.js'));
-var Mapper = require ('./Mapper.js');
+var Mapperrs = require ('./Mapper.js');
 var arrayDirty = [];
 var arrayNew = [];
 var arrayDeleted = [];
-var mapper;
+var Mapper;
 function UnityOfWorkAdmin(given_mapper){
-	mapper = given_mapper;
+	Mapper = given_mapper;
 }
 UnityOfWorkAdmin.registerDirtyProduct = function(product){
 	if(arrayDirty.length === 0){
@@ -25,27 +25,41 @@ UnityOfWorkAdmin.registerNewProduct = function(product){
 		arrayNew.push(product);
 	}
 };
-UnityOfWorkAdmin.registerDeletedProduct = function(product){
+UnityOfWorkAdmin.registerDeletedProduct = function(model_number){
 	if(arrayDeleted.length === 0){
-		arrayDeleted = new Array(product);
+		arrayDeleted = new Array(model_number);
 	}else{
-		arrayDeleted.push(product);
+		arrayDeleted.push(model_number);
 	}
 };
-UnityOfWorkAdmin.commit = function(){
+UnityOfWorkAdmin.commit = function(fn){
 	var i = 0;
 	for( i = 0;i < arrayDirty.length;i++){
-		Mapper.saveDirty(arrayDirty[i]);
+		Mapper.saveDirty(arrayDirty[i],function(result){
+			console.log(result);
+		});
 	}
 	for(i=0; i < arrayNew.length;i++){
-		Mapper.saveNew(arrayNew[i]);
+		Mapper.saveNew(arrayNew[i],function(result){
+			console.log(result);
+		});
 	}
 	for(i=0; i < arrayDeleted.length;i++){
-		Mapper.deleteProduct(arrayDeleted[i]);
+		Mapper.nowDeleteProduct(arrayDeleted[i],function(result){
+			console.log(result);
+		});
 	}
 	//clear the arrays after the tasks are done
 	arrayDirty.splice(0,arrayDirty.length);
 	arrayNew.splice(0,arrayNew.length);
 	arrayDeleted.splice(0,arrayDeleted.length);
+	fn(true)
 };
+UnityOfWorkAdmin.printArray=function(){
+	console.log(arrayDirty);
+	console.log("////")
+	console.log(arrayNew);
+	console.log("////")
+	console.log(arrayDeleted);
+}
 module.exports = UnityOfWorkAdmin;

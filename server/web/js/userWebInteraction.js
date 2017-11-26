@@ -123,6 +123,12 @@ function userWebInteraction(control){
 				}
 			});
 		})
+		//commit Save
+		$("#commitSave").on('click',function(){
+			controller.commitAdmin(function(result){
+				alert(result);
+			})
+		})
 		//adapt to type
 		$("#typeInput").change(function(){
 			var myModel = $("#model_number").val();

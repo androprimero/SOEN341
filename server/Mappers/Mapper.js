@@ -2,10 +2,10 @@ var path = require('path');
 var jwt = require('jsonwebtoken');
 var {Desktop, Monitor, laptop, Tablet} = require(path.join(__dirname, '..', 'Products/Product.js'));
 //class Mapper
-function Mapper (given_tableDataGateway, given_identityMap,given_unitOfWorkAmin){
+function Mapper (given_tableDataGateway, given_identityMap,given_unitOfWorkAdmin){
 	TableDataGateway = given_tableDataGateway,
-	identityMap = given_identityMap,
-	unitOfWorkAmin = given_identityMap
+	IdentityMap = given_identityMap,
+	UnitOfWorkAdmin = given_unitOfWorkAdmin
 }
 function verify (token) {
 	var success;
@@ -25,29 +25,65 @@ function verify (token) {
 Mapper.createDatabaseConnection=function(){
 	TableDataGateway.connect();
 }
+//VerifyProduct
 Mapper.getInformationProduct=function(model_number,fn){
-	TableDataGateway.informationProduct(model_number,function(obj){
-		fn(obj)
-	})
+	var product = IdentityMap.findProduct(model_number);
+	if(product==null){
+		console.log("TDG")
+		TableDataGateway.informationProduct(model_number,function(obj){
+			console.log("TDG");
+			console.log(obj)
+			if(obj!=null){
+				IdentityMap.addProduct(obj)
+			}
+			fn(obj)
+		})
+	}
+	else{
+		fn(product)
+	}
 }
 Mapper.getCatalog=function(category,fn){
 	TableDataGateway.getCatalog(category,function(result){
 		fn(result);
 	})
 }
-Mapper.saveNewProduct=function(product,fn){
-	TableDataGateway.saveNewProduct(product,function(result){
+//Insertion
+Mapper.insertProduct=function(product,fn){
+	IdentityMap.addProduct(product);
+	UnitOfWorkAdmin.registerNewProduct(product);
+	fn(true);
+}
+Mapper.saveNew= function(product,fn){
+	TableDataGateway.saveNewProduct	(product,function(result){
 		fn(result);
 	})
 }
+//Deletion
 Mapper.deleteProduct=function(model_number,fn){
+	IdentityMap.deleteProduct(model_number);
+	UnitOfWorkAdmin.registerDeletedProduct(model_number);
+	fn(true);
+}
+Mapper.nowDeleteProduct=function(model_number,fn){
 	TableDataGateway.deleteProduct(model_number,function(status){
 		fn(status);
 	})
 }
+//Update
 Mapper.updateProduct = function(product,fn){
+	IdentityMap.updateProduct(product);
+	UnitOfWorkAdmin.registerDirtyProduct(product);
+	fn(true)
+}
+Mapper.saveDirty=function(product,fn){
 	TableDataGateway.updateProduct(product,function(status){
 		fn(status)
+	})
+}
+Mapper.commitAdmin=function(fn){
+	UnitOfWorkAdmin.commit(function(result){
+		fn(result)
 	})
 }
 Mapper.signIn = function (myUsername, myPassword, fn) {
@@ -75,5 +111,3 @@ Mapper.signOut = function (token, fn) {
 	}
 }
 module.exports = Mapper;
-
-
