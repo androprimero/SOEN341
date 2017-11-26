@@ -53,6 +53,21 @@ function Controller(){
 			fn(result);
 		})
 	}
+	this.signIn = function(email, password, fn){
+		var theUrl = '/signin';
+		var prop = {}
+	    prop.email = email;
+	    prop.password = password;
+	    var data = JSON.stringify(prop, null, "\t")
+		ajaxPOST(theUrl,data,function(result){
+			if (result){
+				fn(true);
+			}
+			else{
+				fn(false);
+			}
+		}
+	}
 	this.ViewInventory = function(type, minSettings, maxSettings, fn) {
 	    var theUrl;
 	    switch (type) {
