@@ -86,6 +86,15 @@ Mapper.commitAdmin=function(fn){
 		fn(result)
 	})
 }
+Mapper.insertToWishlist = function(userID,product){
+	Wishlist.addToWishlist(userID,product);	
+}
+Mapper.removeFromWishlist = function(userID,model_number){
+	Wishlist.deleteFromWishlist(c,model_number);	
+}
+Mapper.signUp = function(myUsername,myPassword,myFirstName,myLastName,myAdress,myEmail,myPhoneNumber,fn){
+	
+}
 Mapper.signIn = function (myUsername, myPassword, fn) {
 	if(myPassword=="password"){
 		jwt.sign({username: myUsername, password: myPassword}, 'soen341fall2017', function (err,token){
