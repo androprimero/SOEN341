@@ -6,6 +6,9 @@ var bodyParser = require('body-parser');
 var TableDataGateway = require('./Data_connection/TableDataGateway.js');
 var IdentityMap = require('./Mappers/identityMapSingleton.js');
 var UnitOfWorkAdmin = require('./Mappers/UnityOfWorkAdmin.js')
+var UnitOfWorkWishlist = require('./Mappers/UnitOfWorkWishlistSingleton.js')
+var Wishlist = require('./Mappers/Wishlist.js')
+var Client = require('./Users/User.js')
 var Mapper = require('./Mappers/Mapper.js');
 var {Desktop, Monitor, laptop, Tablet,Item} = require('./Products/Product.js');
 var path = require('path');
@@ -21,17 +24,24 @@ TableDataGateway(conn)
 //getInstance of IdentityMap
 var myIdentityMap = IdentityMap.getInstance();
 UnitOfWorkAdmin(Mapper)
-Mapper(TableDataGateway,myIdentityMap,UnitOfWorkAdmin)
+var myUnitOfWorkWishtlist=UnitOfWorkWishlist.getInstance();
+myUnitOfWorkWishtlist.setMapper(Mapper)
+var myWishlist = new Wishlist(Mapper.getClients_pool());
+Mapper(TableDataGateway,myIdentityMap,UnitOfWorkAdmin,myWishlist,myUnitOfWorkWishtlist)
 //create connection to database
 Mapper.createDatabaseConnection();
-//MAPPER TES																									TEST
-Mapper.deleteProduct(p.Model_Number,function(res){
-	console.log(res);
-	Mapper.commitAdmin(function(result){
-		console.log("AAAAA"+result+"AAAAA")
-	});
-	
-})
+//MAPPER TEST																									TEST
+var c1 = new Client(1,"gef","pp","wer","my","t");
+var c2 = new Client(2,"gef","pp","wer","my","t");
+var c3 = new Client(3,"gef","pp","wer","my","t");
+var c4 = new Client(4,"gef","pp","wer","my","t");
+Mapper.addClient(c1)
+Mapper.addClient(c2)
+Mapper.addClient(c3)
+Mapper.addClient(c4)
+myWishlist.printArray();
+myUnitOfWorkWishtlist.printArray();
+// myW.printArray();
 app.use(express.static(path.join(__dirname, 'Web')));
 app.get("/Hello",function(req,res){
 	res.setHeader("Content-Type","text/html");
@@ -171,11 +181,12 @@ app.post('/signout', function(req,res){
 });
 app.post('/wishlistAdd', function(req,res){
 	res.setHeader("Content-Type","text/plain");
-	var wishlistProduct = JSON.parse(req.body.data.product);
-	var userID = JSON.parse(req.body.data.userID);
+	var wishlistProduct = JSON.parse(req.body.data);
 	var product = Item.JSONToObject(wishlistProduct);
+	// var userID = JSON.parse(req.body.data.userID);
 	console.log(product);
-	Mapper.insertToWishlist(userID,product, function(result){
+	// console.log(userID);
+	Mapper.insertToWishlist(3,product, function(result){
 		if(result){
 			res.status(200);
 			res.end("Item Added to the Wishlist");
@@ -188,11 +199,27 @@ app.post('/wishlistAdd', function(req,res){
 });
 app.post('/wishlistDelete', function(req,res){
 	res.setHeader("Content-Type","text/plain");
-	var model_number = JSON.parse(req.body.data.model_number);
-	var userID = JSON.parse(req.body.data.userID);
-	console.log(model_number);
-	console.log(userID);
-	Mapper.removeFromWishlist(userID,model_number, function(result){
+	var model_number = req.body.data;
+	// var userID = JSON.parse(req.body.data.userID);
+	// console.log(userID);
+	Mapper.removeFromWishlist(3,model_number, function(result){
+		if(result){
+			res.status(200);
+			res.end("Item has been Deleted from Wishlist");
+		}
+		else{
+			res.status(400);
+			res.end("Error while Deleting the Item from the Wishlist");
+		}
+	});
+});
+app.post('/commitWishlist', function(req,res){
+	res.setHeader("Content-Type","text/plain");
+	//var model_number = JSON.parse(req.body.data.model_number);
+	// var userID = JSON.parse(req.body.data.userID);
+	//console.log(model_number);
+	// console.log(userID);
+	Mapper.commitWishlist(3, function(result){
 		if(result){
 			res.status(200);
 			res.end("Item has been Deleted from Wishlist");

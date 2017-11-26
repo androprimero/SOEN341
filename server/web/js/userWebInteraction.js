@@ -66,7 +66,7 @@ function userWebInteraction(control){
 					var theItem = Item.JSONToObject(result);
 					$("#item_option").show();
 					$("#add_option").hide();
-					alert(JSON.stringify(theItem,null,"\t"));
+					//alert(JSON.stringify(theItem,null,"\t"));
 					switch(theItem.typeInt){
 						case 1 : placeDesktopInForm(theItem);break;
 						case 2 : placeMonitorInForm(theItem);break;
@@ -129,15 +129,37 @@ function userWebInteraction(control){
 				alert(result);
 			})
 		})
+		//addToWishlist
+		$("#addWishlist").on("click",function(){
+			product = formToItem();
+			controller.wishlistAdd(product,function(res){
+				alert(res)
+			})
+		})
+		//removeFromWishlist
+		$("#removeWishlist").on('click',function(){
+			p = $("#model_number").val();
+			controller.wishlistDelete(p,function(res){
+				controller.commitWishlist(function(res){
+					alert(res)
+				})
+			})
+		})
+		//Commit Wish
+		$("#commitWish").on('click',function(){
+			controller.commitWishlist(function(res){
+				alert(res);
+			})
+		})
 		//adapt to type
 		$("#typeInput").change(function(){
 			var myModel = $("#model_number").val();
 			if($(this).val()=="Desktop"){
-				alert("IN")
+				//alert("IN")
 				displayInputShow();
 				var emptyDesktop = new Desktop(myModel,"","","","","",""," x  x ","");
 				placeDesktopInForm(emptyDesktop);
-				alert("OUT")
+				//alert("OUT")
 			}
 			else if($(this).val()=="Monitor") {
 				displayInputShow();
@@ -196,6 +218,9 @@ function userWebInteraction(control){
 	       		$("#results").show();
 	        }
 	  	})
+		$("#getWish").on('click',function(){
+			$("#specifications").show();
+		})
 	   	$("#submitSet").on('click',function(){
 	   		$("#specifications").show();
 	   		$("#results").show();
@@ -222,7 +247,7 @@ function userWebInteraction(control){
 	        }
 //alert(JSON.stringify(MyMaxProduct));
 	        	 controller.ViewInventory($("#categories").val(), MyMinProduct, MyMaxProduct, function(results){
-	         	alert(JSON.stringify(results, null, "\t")+" AAAAAAA");
+	         	//alert(JSON.stringify(results, null, "\t")+" AAAAAAA");
 	         	latest_res= results;
 	         	$("#displayResults").empty();
 	         	$("#displayResults").append("<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>");
@@ -237,7 +262,7 @@ function userWebInteraction(control){
 	    	var myIndex =$(this).find(".indexNumber").html();
 	    	var myItem = latest_res.rows[myIndex-1]
 	    	myItem= Item.JSONToObject(myItem);
-	    	alert(JSON.stringify(myItem));
+	    	//alert(JSON.stringify(myItem));
 	    	displayInputShow();
 	    	 switch (myItem.typeInt){
 	    	 	case 1 : placeDesktopInForm(myItem);break;
@@ -307,7 +332,7 @@ array= shuffle(array);
 		)
 	}
 	function placeDesktopInForm(desktop){
-		alert("from desktop form")
+		//alert("from desktop form")
 		$("#model_number").val(desktop.Model_Number);
 		$("#typeInput").val(desktop.Type);
 		$("#priceInput").val(desktop.price);
@@ -337,13 +362,13 @@ array= shuffle(array);
     }
 
 	function placeMonitorInForm(monitor){
-		alert("from monitor form");
+		//alert("from monitor form");
 		$("#model_number").val(monitor.Model_Number);
 		$("#typeInput").val(monitor.Type);
 		$("#priceInput").val(monitor.price);
 		$("#weightInput").val(monitor.weight);
 		$("#brandInput").val(monitor.BrandName);
-		alert(monitor.Size+"theSize");
+		//alert(monitor.Size+"theSize");
 		$("#sizeInput").val(monitor.Size);
 		$("#cpu_core").hide();
 		$("#battery").hide();
@@ -373,7 +398,7 @@ array= shuffle(array);
 						);
     }
 	function placeLaptopInForm(laptop){
-		alert("from laptop form")
+		//alert("from laptop form")
 		$("#model_number").val(laptop.Model_Number);
 		$("#typeInput").val(laptop.Type);
 		$("#priceInput").val(laptop.price);
@@ -411,7 +436,7 @@ array= shuffle(array);
 	    )
 	}
 	function placeTabletInForm(tablet){
-		alert("from tablet form")
+		//alert("from tablet form")
 		$("#model_number").val(tablet.Model_Number);
 		$("#typeInput").val(tablet.Type);
 		$("#priceInput").val(tablet.price);
@@ -470,7 +495,7 @@ array= shuffle(array);
 			case "laptop" : myItem = formToLaptopItem(defaultSettings, "");break;
 			case "Tablet" : myItem = formToTabletItem(defaultSettings, "");break;
 		}
-		alert("check this > "+JSON.stringify(myItem,null,"\t"))
+		//alert("check this > "+JSON.stringify(myItem,null,"\t"))
 		return myItem;
 	}
 	function defaultForm(){

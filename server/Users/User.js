@@ -6,5 +6,6 @@ function User(IdNumber,FirstName,LastName,Address,EmailAddress,PhoneNumber){
   this.Address = Address;
   this.EmailAddress = EmailAddress;
   this.Phone = PhoneNumber;
+  this.myWishlist = [];
 }
 module.exports = User;

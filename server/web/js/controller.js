@@ -36,6 +36,23 @@ function Controller(){
 			fn(result);
 		})
 	}
+	this.wishlistAdd=function(p,fn){
+		var data = JSON.stringify(p);
+		ajaxPOST("/wishlistAdd",data,function(result){
+			fn(result);
+		})
+	}
+	this.wishlistDelete=function(model,fn){
+		var data = p;
+		ajaxPOST("/wishlistDelete",data,function(result){
+			fn(result);
+		})
+	}
+	this.commitWishlist = function(fn){
+		ajaxPOST("/commitWishlist","{}",function(result){
+			fn(result);
+		})
+	}
 	this.ViewInventory = function(type, minSettings, maxSettings, fn) {
 	    var theUrl;
 	    switch (type) {

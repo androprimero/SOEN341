@@ -24,7 +24,6 @@
 
 <fieldset>
   <legend>Wishlist</legend>
-  
 <form id="specifications" style="float:right; width:50%;"> 
     <h3>Product Specifications</h3>
     <table id="admin_table">
@@ -95,6 +94,7 @@
       </tr>
     </table>
   <input id="removeWishlist" type="button" value="Remove from Wishlist">
+  <input id="commitWish" type="button" value="Commit All Changes">
 
   </form>
 
@@ -104,9 +104,13 @@
     <tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr> 
   </table>
 </form>
+<input id="getWish" type="button" value="Fetch Wishlist">
 </fieldset>
-
-
-
+<!-- add Product Items classes -->
+<script type="js/Product.js"></script>
+<!-- add Controller -->
+<script src="js/controller.js"> </script>
+<script src="js/userWebInteraction.js"> </script>
+<script src="js/main.js"> </script>
 </body>
 </html>

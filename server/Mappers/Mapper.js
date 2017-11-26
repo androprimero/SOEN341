@@ -1,11 +1,44 @@
 var path = require('path');
 var jwt = require('jsonwebtoken');
 var {Desktop, Monitor, laptop, Tablet} = require(path.join(__dirname, '..', 'Products/Product.js'));
+var Client = require(path.join(__dirname, '..', 'Users/User.js'))
+var clients_pool = []
 //class Mapper
-function Mapper (given_tableDataGateway, given_identityMap,given_unitOfWorkAdmin){
+function Mapper (given_tableDataGateway, given_identityMap,given_unitOfWorkAdmin, given_wishlist, given_UnitOfWorkWishlist){
 	TableDataGateway = given_tableDataGateway,
 	IdentityMap = given_identityMap,
-	UnitOfWorkAdmin = given_unitOfWorkAdmin
+	UnitOfWorkAdmin = given_unitOfWorkAdmin,
+	Wishlist = given_wishlist;
+	UnitOfWorkWishlist = given_UnitOfWorkWishlist
+}
+Mapper.getClients_pool=function(){
+	return clients_pool;
+}
+Mapper.saveWislistNew = function (id,insert, fn){
+	console.log(insert.length)
+	// if(insert.length>0){
+		TableDataGateway.saveWislistNew(id,insert,function(res){
+			fn(res);
+		})	
+	// }
+	// else{
+		// fn(true);
+	// }
+}
+Mapper.deleteWishlistProduct = function (id,remove, fn){
+	// if(remove.length>0){
+		console.log("AAAAAAAAAAAAAAAAAAA")
+		TableDataGateway.deleteWishlistProduct(id,remove,function(res){
+			fn(res);
+		})
+	// }
+	// else{
+		// fn(true);
+	// }
+}
+Mapper.addClient=function (c){
+	clients_pool.push(c);
+	UnitOfWorkWishlist.addClient(c.Id)
 }
 function verify (token) {
 	var success;
@@ -86,11 +119,21 @@ Mapper.commitAdmin=function(fn){
 		fn(result)
 	})
 }
+Mapper.commitWishlist = function(userID,fn){
+	UnitOfWorkWishlist.commitWishlist(userID,function(res){
+		fn(res)
+	});
+}
 Mapper.insertToWishlist = function(userID,product){
 	Wishlist.addToWishlist(userID,product);	
+	UnitOfWorkWishlist.registerNewWishlist(userID,product.Model_Number);
+	UnitOfWorkWishlist.printArray();
+	
 }
 Mapper.removeFromWishlist = function(userID,model_number){
-	Wishlist.deleteFromWishlist(c,model_number);	
+	Wishlist.deleteFromWishlist(userID,model_number);	
+	UnitOfWorkWishlist.registerDelete(userID,model_number);
+	UnitOfWorkWishlist.printArray();
 }
 Mapper.signUp = function(myUsername,myPassword,myFirstName,myLastName,myAdress,myEmail,myPhoneNumber,fn){
 	

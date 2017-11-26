@@ -378,6 +378,60 @@ function searchLocalSpecification(specifiactions,key){
 	}
 	return -1;
 }
+TableDataGateway.saveWislistNew=function(id,wish,fn){
+	if(wish.length>0){
+		//insert into wishlistrecords values ('123','44444');
+		var sql="";
+		for(var i =0;i<wish.length;i++){
+			sql+="( '"+id+"', '"+wish[i]+"' ) "
+			if(i<(wish.length-1)){
+				sql+=", "
+			}
+		}
+		conn.query("insert into wishlistrecords values "+sql,function(err,res){
+			if(err){
+				console.log(err);
+				fn(false)
+			}
+			else{
+				fn(true)
+			}
+		})
+	}
+	else{
+		fn(true)
+	}
+}
+TableDataGateway.deleteWishlistProduct=function(id,wish,fn){
+	if(wish.length>0){
+		//delete from wishlistrecords where user_id IN ('3', '3') AND model_number IN ('ELMO','TEDD');
+		var sql="";
+		var sql_0="";
+		var sql_1=""
+		for(var i =0;i<wish.length;i++){
+			sql_0+="'"+id+"'"
+			sql_1+="'"+wish[i]+"'"
+			if(i<(wish.length-1)){
+				sql_0+=", "
+				sql_1+=", "
+			}
+		}
+		console.log("delete from wishlistrecords where user_id IN ("+sql_0+") AND model_number IN ("+sql_1+")")
+		conn.query("delete from wishlistrecords where user_id IN ("+sql_0+") AND model_number IN ("+sql_1+")",function(err,res){
+			if(err){
+				console.log(err);
+				fn(false)
+			}
+			else{
+				fn(true)
+			}
+		})
+		console.log("DESLYTE"+wish)
+	}
+	else{
+		fn(true)
+	}
+}
 // function addSpecifications(conn, resultSet, rows, typeInt, fn){
 	// for(var i =0; i<rows.length;i++){
 		// var key = (rows[i].specification_id)%10000;

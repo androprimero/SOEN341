@@ -3,59 +3,51 @@
  */
 var path = require('path');
 var Product = require(path.join(__dirname, '..', 'Products/Product.js'));
-function Wishlist(){
-	var Wish_list = [];
-	function addToWishlist(userID,product){
-		var c = Wishlist.find(userID);
-		wishlistAdd(userID,product);	
+var Wishlist=function(clients_pool){
+	var Wish_list = clients_pool;
+	this.addToWishlist=function(userID,product){
+		var c = this.find(userID);
+		console.log("USER FOUND")
+		console.log(c);
+		wishlistAdd(c,product);	
 	}
-	function deleteFromWishlist(userID,model_number){
-		var c = Wishlist.find(userID);
+	this.deleteFromWishlist = function (userID,model_number){
+		var c = this.find(userID);
 		wishlistDelete(c,model_number);
 	}
-	function find(userID){
-		var i = 0;
-		while((i < Wish_list.length) && (Wish_list[i].Id !== userID)){
-			i++;
+	this.find = function (userID){
+		var found = null;
+		for(var i =0;i<Wish_list.length;i++){
+			console.log(Wish_list[i].Id+"  ||| "+ userID)
+			console.log(Wish_list[i].Id===userID)
 			if(Wish_list[i].Id === userID){
-				return Wish_list[i];				
+				found = Wish_list[i];
+				//arrayProducts.splice(i,1);
+				break;
 			}
 		}
-		return null;	
+		return found;
 	}
-	function wishlistAdd(c,product){
-		var i = 0;
-		if(c.myWishlist.length === 0){
-			c.myWishlist = new Array(product);
-		}
-		else{
-			while((i < c.myWishlist.length) && (c.myWishlist[i] !== product)){
-				i++;
+	wishlistAdd = function (c,product){
+		c.myWishlist.push(product);
+	}
+	this.printArray=function(){
+		console.log(Wish_list)
+		console.log("////////////////////");
+	}
+	wishlistDelete = function (c, model_number){
+		for(var i =0;i<c.myWishlist.length;i++){
+			console.log(c.myWishlist[i].Model_Number+"  ||| "+ model_number)
+			console.log(c.myWishlist[i].Model_Number===model_number)
+			if(c.myWishlist[i].Model_Number === model_number){
+				c.myWishlist.splice(i,1);
+				return true;
+				//arrayProducts.splice(i,1);
+				break;
 			}
-			if(c.myWishlist[i-1] !== product){
-					c.myWishlist.push(product);
-					console.log("Product has been Added to the Wishlist");
-			}
-			else{
-				console.log("Wishlist Has Already that product");
-			}
 		}
-	}
-	function wishlistDelete(c, model_number){
-	var i = 0;
-	var found = false;
-	var pos = 0;
-	while((i < c.myWishlist.length) && (c.myWishlist[i].Model_Number !== product.Model_Number)){
-		if((i < c.myWishlist.length)&&(c.myWishlist[i].Model_Number == product.Model_Number)){
-			found = true;
-			pos = i;
-		}
-		i++;
-	}
-	if(found){
-		c.myWishlist.splice(pos,1);
-	}
-	return found;
+		return false;
 	}
 }
 module.exports = Wishlist;
+
