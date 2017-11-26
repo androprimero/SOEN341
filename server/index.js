@@ -159,18 +159,25 @@ app.post("/commitAdmin",function(req,res){
 		}
 	})
 })
+//Login
 app.post('/signin', function(req,res){
 	res.setHeader("Content-Type","text/plain");
-	myUsername= req.body.username;
-	myPassword= req.body.password;
+	var login = JSON.parse(req.body.data);
+	myUsername= login.email;
+	myPassword= login.pass;
+	console.log(myUsername);
+	console.log(myPassword);
+	console.log("IN");
 	Mapper.signIn(myUsername,myPassword, function(token){
+		console.log(token)
 		if(token != null){    
 			res.status(200);
+			console.log(token);
 			res.end(token);
 		}
 		else{
 			res.status(401);
-			res.end("Unsuccessful login");
+			res.end("False");
 		}
 	});
 });

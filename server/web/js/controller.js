@@ -7,7 +7,10 @@ function Controller(){
 	}
 	this.insertItem = function(product,fn){
 		var theUrl = '/insertProduct';
-		var data = JSON.stringify(product);
+		var el ={};
+		el.p=product;
+		el.token=token
+		var data = JSON.stringify(el);
 		ajaxPOST(theUrl,data,function(result){
 			fn(result);
 		})
@@ -53,20 +56,31 @@ function Controller(){
 			fn(result);
 		})
 	}
-	this.signIn = function(email, password, fn){
+	this.signIn = function(email, pass, fn){
 		var theUrl = '/signin';
 		var prop = {}
 	    prop.email = email;
-	    prop.password = password;
+	    prop.pass = pass;
 	    var data = JSON.stringify(prop, null, "\t")
-		ajaxPOST(theUrl,data,function(result){
-			if (result){
-				fn(true);
+		ajaxPOST(theUrl,data,function(status,token){
+			console.log(token);
+			if (!status){
+				//alert("Wrong")
+				fn(null);
 			}
 			else{
-				fn(false);
+				//alert("Wrong//")
+				//alert(JSON.stringify(token));
+				var real=token.split(" ");
+				console.log(token)
+				if(real[1]==="true"){
+					fn(real[0],true);
+				}
+				else{
+					fn(real[0],false)
+				}
 			}
-		}
+		})
 	}
 	this.ViewInventory = function(type, minSettings, maxSettings, fn) {
 	    var theUrl;
@@ -122,7 +136,7 @@ function Controller(){
 			},
 			error: function(result){
 				fn(false,result);
-				alert("System couldn't add the item to the catalog. Please try again later!")
+				//alert("System couldn't add the item to the catalog. Please try again later!")
 			}
 		});
 

@@ -18,7 +18,6 @@ function userWebInteraction(control){
 	    os: "#osInput",
 	    camera: "#cameraInput"
 	};
-
 	var minSettings = {
 	    width: "#minWidth",
 	    height: "#minHeight",
@@ -52,17 +51,31 @@ function userWebInteraction(control){
 	    os: "#FilterOs",
 	    camera: "#maxCamera"
 	};
+	//Local storage check
+	if (typeof(Storage) === "undefined") {
+		alert("Web Browser Storage not Supported in you chosen Navigation. Login and related task will not work")
+	}
 	// functions
 	this.startMonitoring = function (){
 		// verify Item
 		$('#modelNumberSubmit').on('click', function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(!localStorage.getItem("isAdmin")){
+				alert("Please log in as admin");
+				return;
+			}
 			$("#type_action").show();
 			$("#description_option").show();
 			var model_number = $('.modelNumberField').val();
-			controller.verifyProduct(model_number,function(result){
-				displayInputShow();
+			controller.verifyProduct(model_number,function(result,isAdmin){
+				if(result && isAdmin){
+					displayInputShow();
+				}
+				if(!result && !isAdmin){
+					alert("Please Be Login As Admin To use this function");
+				}
 				//model found
-				if(!jQuery.isEmptyObject(result)){
+				else if(!jQuery.isEmptyObject(result)){
 					var theItem = Item.JSONToObject(result);
 					$("#item_option").show();
 					$("#add_option").hide();
@@ -84,6 +97,11 @@ function userWebInteraction(control){
 		});
 		//delete Item
 		$("#DeleteSubmit").on('click',function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(!localStorage.getItem("isAdmin")){
+				alert("Please log in as admin");
+				return;
+			}
 			var model_number = $('#model_number').val();
 			controller.deleteItem(model_number,function(result){
 				if(result){
@@ -99,6 +117,11 @@ function userWebInteraction(control){
 		})
 		// Update Item
 		$("#modifyItemSubmit").on('click',function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(!localStorage.getItem("isAdmin")){
+				alert("Please log in as admin");
+				return;
+			}
 			var myItem = formToItem();
 			controller.modifyItem(myItem,function(result){
 				if(result){
@@ -111,6 +134,11 @@ function userWebInteraction(control){
 		})
 		// add Item 
 		$("#add_item").on('click',function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(!localStorage.getItem("isAdmin")){
+				alert("Please log in as admin");
+				return;
+			}
 			var myItem = formToItem();
 			controller.insertItem(myItem,function(result){
 				if(result){
@@ -125,12 +153,22 @@ function userWebInteraction(control){
 		})
 		//commit Save
 		$("#commitSave").on('click',function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(!localStorage.getItem("isAdmin")){
+				alert("Please log in as admin");
+				return;
+			}
 			controller.commitAdmin(function(result){
 				alert(result);
 			})
 		})
 		//addToWishlist
 		$("#addWishlist").on("click",function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==true){
+				alert("Please log in as client");
+				return;
+			}
 			product = formToItem();
 			controller.wishlistAdd(product,function(res){
 				alert(res)
@@ -138,6 +176,11 @@ function userWebInteraction(control){
 		})
 		//removeFromWishlist
 		$("#removeWishlist").on('click',function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==true){
+				alert("Please log in as client");
+				return;
+			}
 			p = $("#model_number").val();
 			controller.wishlistDelete(p,function(res){
 				controller.commitWishlist(function(res){
@@ -147,8 +190,40 @@ function userWebInteraction(control){
 		})
 		//Commit Wish
 		$("#commitWish").on('click',function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==true){
+				alert("Please log in as client");
+				return;
+			}
 			controller.commitWishlist(function(res){
 				alert(res);
+			})
+		})
+		//log out
+		$("#out").on('click',function(){
+			//LOCAL LOGT OUT, SHOULD ALSO BE DONE ON SERVER, because time....
+			localStorage.clear();
+			alert("Log out succesfull");
+		})
+		//Login
+		$("#logSubmit").on('click',function(){
+			var email = $("#emailLog").val();
+			var pass = $("#passLog").val();
+			console.log("perfomred")
+			controller.signIn(email,pass,function(token,admin){
+				if(token!=null){
+					localStorage.setItem("token",token);
+					localStorage.setItem("isAdmin",admin)
+					if(admin){
+						alert("Admin Login Successfull");
+					}
+					else{
+						alert("Client Login Succesfull");
+					}
+				}
+				else{
+					alert("Wrong Credential or User does not exists!")
+				}
 			})
 		})
 		//adapt to type

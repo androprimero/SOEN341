@@ -14,7 +14,7 @@
           <li> <a id="catalog" href="catalog.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Catalog</a></li>
           <li> <a id="wishlist" href="wishlist.html"> <i class="fa fa-shopping-basket" aria-hidden="true"></i>Wishlist</a></li>
           <li> <a id="login" href="login.html"><i class="fa fa-sign-in" aria-hidden="true"></i>Log In</a> </li>
-          <li> <a id="logout" href="javascript:log()"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a> </li>
+          <li> <a id="out" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a> </li>
           <li> <a id="register" href="register.html"> <i class="fa fa-user" aria-hidden="true"></i>Register</a> </li>
           <li> <a id="admin" href="admin.html"> <i class="fa fa-user" aria-hidden="true"></i>Admin</a> </li>
         </ul>
@@ -24,6 +24,35 @@
   <fieldset id="Register">
   <legend>Register</legend>
   <table id="login_table" align="center">
+		<tr>
+			<td><strong>Login</strong></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Enter Your Email:</td>
+			<td><input id="emailLog" type="text" name="email" placeholder="Obiwankenobi@gmail.com"></td>
+		</tr>
+		<tr>
+			<td>Enter Password:</td>
+			<td><input id="passLog" type="password" name="password" placeholder="xxxxxxxxx"></td>
+		</tr>
+		<tr>
+			<td>Sample admin login</td>
+			<td>me@sky.up | element</td>
+		</tr>
+		<tr>
+			<td>Sample client login</td>
+			<td>me@ground.down | lego</td>
+		</tr>
+  </table>
+  <br>
+  <input id="logSubmit" type="submit" value="Login"><br>
+  <br><br>
+  <table id="reg_table" align="center">
+		<tr>
+			<td><strong>Sign Up</strong></td>
+			<td></td>
+		</tr>
 		<tr>
 			<td>Enter Your Email:</td>
 			<td><input id="emailInput" type="text" name="email" placeholder="Obiwankenobi@gmail.com"></td>
@@ -49,6 +78,7 @@
 			<td><input id="phoneNumberInput" type="text" name="phoneNumber" placeholder="5149876512"></td>
 		</tr>
   </table>
+  <br>
   <input id="registerSubmit" type="submit" value="register">
   </fieldset>
   <!-- Enable jQuery -->

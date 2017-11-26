@@ -139,7 +139,7 @@ Mapper.signUp = function(myUsername,myPassword,myFirstName,myLastName,myAdress,m
 	
 }
 Mapper.signIn = function (email, myPassword, fn) {
-	TableDataGateway.login(email, myPassword,function(user){
+	TableDataGateway.login(email, myPassword,function(user,admin){
 		if(user!=null){
 			console.log(user)
 			jwt.sign(JSON.stringify(user), 'soen341fall2017', function (err,token){
@@ -150,12 +150,18 @@ Mapper.signIn = function (email, myPassword, fn) {
 				}
 				else{
 					console.log(token);
-					fn(token);
+					if(admin){
+						fn(token+" true")
+					}
+					else{
+						fn(token+" false")	
+					}
 				}
 			});
 		}
 		else{
-			fn("{}");
+			console.log("FALSE--")
+			fn(null);
 		}
 		
 	})
