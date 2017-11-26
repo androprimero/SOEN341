@@ -108,7 +108,7 @@
     <option value="laptop">Laptops</option>
   </select>
   <br><br>
-<input id="submit" type="button" value="Show results">
+
 </form>
 
 <field id="filtertablets" style="float:left;">
@@ -152,7 +152,7 @@
 	Depth:<input id="minDepth" type="text" name="minDepth" placeholder="Minimum Depth">
 	<input id="maxDepth" type="text" name="maxDepth" placeholder="Maximum Depth">
 	<br>
-	<input id="filterMonitor" type="button" value="Filter results">
+
 </field>
 
 <field id="filterdesktops" >
@@ -185,7 +185,7 @@
 	Depth:<input id="minDepth" type="text" name="minDepth" placeholder="Minimum Depth">
 	<input id="maxDepth" type="text" name="maxDepth" placeholder="Maximum Depth">
 	<br>
-	<input id="filterMonitor" type="button" value="Filter results">
+	
 </field>
 
 <field id="filtermonitors" >
@@ -201,7 +201,7 @@
 	Screen size:<input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size">
 	<input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size">
 	<br>
-	<input id="filterMonitor" type="button" value="Filter results">
+	
 </field>
 
 <field id="filterlaptops" >
@@ -234,13 +234,14 @@
 	Screen size:<input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size">
 	<input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size">
 	<br>
-	<input id="filterMonitor" type="button" value="Filter results">
+
 </field>
 
-
 </fieldset>
+<input style="float: left;" id="submitSet" type="button" value="Show results">
 <fieldset id="results" style="border: none;">
-	<table id="displayResults">
+	<h3 style="float: left;">Results</h3><br>
+	<br><table id="displayResults">
 		<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>	
 		
 	</table>

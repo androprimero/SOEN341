@@ -26,14 +26,22 @@ app.get("/Hello",function(req,res){
 	TableDataGateway.test();
 	res.end();
 })
-app.get("/get/:category",function(req,res){
+app.post("/get/:category",function(req,res){
 	res.setHeader("Content-Type","application/json");
 	var category = req.params.category;
+	console.log("MIN")
+	var prod = JSON.parse(req.body.data);
+	console.log(prod.minSettings);
+	console.log(category);
 	Mapper.getCatalog(category, function(result){
 		res.status(200);
 		if(result){
-			var el = JSON.stringify(result,null,"\t");
+			console.log("AAAAAAAAAA");
 			console.log(result);
+			var el = JSON.stringify(result,null,"\t");
+			console.log("BBBBBBBBBB")
+			console.log(el)
+			//console.log(result);
 			res.end(el);	
 		}
 		else{
