@@ -31,6 +31,11 @@ function Controller(){
 			fn(result);
 		})
 	}
+	this.commitAdmin = function(fn){
+		ajaxPOST("/commitAdmin","{}",function(result){
+			fn(result);
+		})
+	}
 	this.ViewInventory = function(type, minSettings, maxSettings, fn) {
 	    var theUrl;
 	    switch (type) {

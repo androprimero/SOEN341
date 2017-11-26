@@ -4,10 +4,13 @@ var express = require('express');
 var PGConnection = require('pg');
 var bodyParser = require('body-parser');
 var TableDataGateway = require('./Data_connection/TableDataGateway.js');
+var IdentityMap = require('./Mappers/identityMapSingleton.js');
+var UnitOfWorkAdmin = require('./Mappers/UnityOfWorkAdmin.js')
 var Mapper = require('./Mappers/Mapper.js');
 var {Desktop, Monitor, laptop, Tablet,Item} = require('./Products/Product.js');
 var path = require('path');
 var app = express();app.use(bodyParser.urlencoded({ extended: true }));
+var p= new Monitor("ERT124", 22,"1.5 kg","Asus",22);
 //Create Connection to Postgress Database
 var conn = new PGConnection.Client({
 		connectionString:"postgres://bccoxbtohkbpnf:b2fe7746edc73cff61b62b048b9be98007f910b8474cfc92b56648d571a8a40e@ec2-107-22-235-167.compute-1.amazonaws.com:5432/db7gah347b7r9s",
@@ -15,9 +18,20 @@ var conn = new PGConnection.Client({
 	});
 //static constructor
 TableDataGateway(conn)
-Mapper(TableDataGateway,null,null)
+//getInstance of IdentityMap
+var myIdentityMap = IdentityMap.getInstance();
+UnitOfWorkAdmin(Mapper)
+Mapper(TableDataGateway,myIdentityMap,UnitOfWorkAdmin)
 //create connection to database
 Mapper.createDatabaseConnection();
+//MAPPER TES																									TEST
+Mapper.deleteProduct(p.Model_Number,function(res){
+	console.log(res);
+	Mapper.commitAdmin(function(result){
+		console.log("AAAAA"+result+"AAAAA")
+	});
+	
+})
 app.use(express.static(path.join(__dirname, 'Web')));
 app.get("/Hello",function(req,res){
 	res.setHeader("Content-Type","text/html");
@@ -69,7 +83,7 @@ app.post("/insertProduct",function(req,res){
 	console.log(prod);
 	var requestedProduct = Item.JSONToObject(prod);
 	console.log("aaaaaaaa"+requestedProduct);
-	Mapper.saveNewProduct(requestedProduct ,function(status){
+	Mapper.insertProduct(requestedProduct ,function(status){
 		if(status){
 			res.status(200);
 			res.end("OK")
@@ -101,6 +115,20 @@ app.post("/updateProduct",function(req,res){
 	var requestedProduct = Item.JSONToObject(prod);
 	console.log("aaaaaaaa"+requestedProduct);
 	Mapper.updateProduct(requestedProduct ,function fn(status){
+		if(status){
+			res.status(200);
+			res.end("OK")
+		}
+		else{
+			res.status(400)
+			res.end("Internal or Syntax Error")
+		}
+	})
+})
+app.post("/commitAdmin",function(req,res){
+	res.setHeader("Content-Type","text/html");
+	console.log("From Admin Commit");
+	Mapper.commitAdmin(function (status){
 		if(status){
 			res.status(200);
 			res.end("OK")
