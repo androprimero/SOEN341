@@ -31,18 +31,31 @@ function Controller(){
 			fn(result);
 		})
 	}
-	this.ViewInventory= function(type,fn){
-		var theUrl;
-		switch(type){
-			case 'tablet' : theUrl="/get/tablets"; break;
-			case 'desktop' : theUrl="/get/desktops"; break;
-			case 'monitor' : theUrl="/get/monitors"; break;
-			case 'laptop' : theUrl="/get/laptops"; break;
-		}
-		ajaxGET(theUrl,function(result){
-			fn(result);
-
-		})
+	this.ViewInventory = function(type, minSettings, maxSettings, fn) {
+	    var theUrl;
+	    switch (type) {
+	        case 'tablet':
+	            theUrl = "/get/tablets";
+	            break;
+	        case 'desktop':
+	            theUrl = "/get/desktops";
+	            break;
+	        case 'monitor':
+	            theUrl = "/get/monitors";
+	            break;
+	        case 'laptop':
+	            theUrl = "/get/laptops";
+	            break;
+	    }
+	    var prop = {}
+	    prop.minSettings = minSettings;
+	    prop.maxSetting = maxSettings;
+	    prop.type = type;
+	    var data = JSON.stringify(prop, null, "\t")
+	    ajaxPOST(theUrl, data, function(success,result) {
+	        alert(JSON.stringify(result));
+	        fn(result);
+	    })
 	}
 
 	this.test=function(){
@@ -67,10 +80,11 @@ function Controller(){
 			ContentType: "text/json",
 			data: {'data':theData},
 			success: function(result){
-				fn(true)
+				// alert(JSON.stringify(result));
+				fn(true,result)
 			},
 			error: function(result){
-				fn(false);
+				fn(false,result);
 				alert("System couldn't add the item to the catalog. Please try again later!")
 			}
 		});
