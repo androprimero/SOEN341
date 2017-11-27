@@ -112,131 +112,219 @@
 
 </form>
 
-<field id="filtertablets" style="float:left;">
+<div id="filtertablets" style="float:left;">
 	<h5>Filter by:</h5>
-	Price:<input id="minPrice" type="text" name="minPrice" placeholder="Minimum price">
-	<input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price">
-	<br>
-	Weight:<input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight">
-	<input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight">
-	<br>
-	Brand:<input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name">
-	<br>
-	CPU cores:<input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores">
-	<input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores">
-	<br>
-	Battery size:<input id="minBattery" type="text" name="minBattery" placeholder="Minimum battery size">
-	<input id="maxBattery" type="text" name="maxBattery" placeholder="Maximum battery size">
-	<br>
-	Operating system:<input id="FilterOs" type="text" name="FilterOs" placeholder="Operating system">
-	<br>
-	Camera:<input id="minCamera" type="text" name="minCamera" placeholder="Minimum camera MP">
-	<input id="maxCamera" type="text" name="maxCamera" placeholder="Maximum camera MP">
-	<br>
-	RAM<input id="minRAM" type="text" name="minRAM" placeholder="Minimum RAM">
-	<input id="maxRAM" type="text" name="maxRAM" placeholder="Maximum RAM">
-	<br>
-	Processor:<input id="FilterProcessor" type="text" name="FilterProcessor" placeholder="Processor">
-	<br>
-	Hard Disk size:<input id="minHDD" type="text" name="minHDD" placeholder="Minimum Hard Drive size">
-	<input id="maxHDD" type="text" name="maxHDD" placeholder="Maximum Hard Drive size">
-	<br>
-	Screen size:<input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size">
-	<input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size">
-	<br>
-	Width:<input id="minWidth" type="text" name="minWidth" placeholder="Minimum Width">
-	<input id="maxWidth" type="text" name="maxWidth" placeholder="Maximum Width">
-	<br>
-	Height:<input id="minHeight" type="text" name="minHeight" placeholder="Minimum Height">
-	<input id="maxHeight" type="text" name="maxHeight" placeholder="Maximum Height">
-	<br>
-	Depth:<input id="minDepth" type="text" name="minDepth" placeholder="Minimum Depth">
-	<input id="maxDepth" type="text" name="maxDepth" placeholder="Maximum Depth">
-	<br>
+	<table>
+		<tr>
+			<td>Price:</td>
+			<td><input id="minPrice" type="text" name="minPrice" placeholder="Minimum price"></td>
+			<td><input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price"></td>
+		</tr>
+		<tr>
+			<td>Weight:</td>
+			<td><input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight"></td>
+			<td><input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight"></td>
+		</tr>
+		<tr>
+			<td>Brand:</td>
+			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
+			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
+		</tr>
+		<tr>
+			<td>CPU cores:</td>
+			<td><input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Battery size:</td>
+			<td><input id="minBattery" type="text" name="minBattery" placeholder="Minimum battery size"></td>
+			<td><input id="maxBattery" type="text" name="maxBattery" placeholder="Maximum battery size"></td>
+		</tr>
+		<tr>
+			<td>Operating system:</td>
+			<td><input id="FilterOs" type="text" name="FilterOs" placeholder="Operating system"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Camera:</td>
+			<td><input id="minCamera" type="text" name="minCamera" placeholder="Minimum camera MP"></td>
+			<td><input id="maxCamera" type="text" name="maxCamera" placeholder="Maximum camera MP"></td>
+		</tr>
+		<tr>
+			<td>RAM: </td>
+			<td><input id="minRAM" type="text" name="minRAM" placeholder="Minimum RAM"></td>
+			<td><input id="maxRAM" type="text" name="maxRAM" placeholder="Maximum RAM"></td>
+		</tr>
+		<tr>
+			<td>Processor:</td>
+			<td><input id="FilterProcessor" type="text" name="FilterProcessor" placeholder="Processor"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Hard Disk size:</td>
+			<td><input id="minHDD" type="text" name="minHDD" placeholder="Minimum Hard Drive size"></td>
+			<td><input id="maxHDD" type="text" name="maxHDD" placeholder="Maximum Hard Drive size"></td>
+		</tr>
+		<tr>
+			<td>Screen size:</td>
+			<td><input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size"></td>
+			<td><input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size"></td>
+		</tr>
+		<tr>
+			<td>Width:</td>
+			<td><input id="minWidth" type="text" name="minWidth" placeholder="Minimum Width"></td>
+			<td><input id="maxWidth" type="text" name="maxWidth" placeholder="Maximum Width"></td>
+		</tr>
+		<tr>
+			<td>Height:</td>
+			<td><input id="minHeight" type="text" name="minHeight" placeholder="Minimum Height"></td>
+			<td><input id="maxHeight" type="text" name="maxHeight" placeholder="Maximum Height"></td>
+		</tr>
+		<tr>
+			<td>Depth:</td>
+			<td><input id="minDepth" type="text" name="minDepth" placeholder="Minimum Depth"></td>
+			<td><input id="maxDepth" type="text" name="maxDepth" placeholder="Maximum Depth"></td>
+		</tr>
+	</table>
+</div>
 
-</field>
-
-<field id="filterdesktops" >
+<div id="filterdesktops"  style="float:left;">
 	<h5>Filter by:</h5>
-	Price:<input id="minPrice" type="text" name="minPrice" placeholder="Minimum price">
-	<input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price">
-	<br>
-	Weight:<input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight">
-	<input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight">
-	<br>
-	Brand:<input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name">
-	<br>
-	CPU cores:<input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores">
-	<input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores">
-	<br>
-	RAM:<input id="minRAM" type="text" name="minRAM" placeholder="Minimum RAM">
-	<input id="maxRAM" type="text" name="maxRAM" placeholder="Maximum RAM">
-	<br>
-	Processor:<input id="FilterProcessor" type="text" name="FilterProcessor" placeholder="Processor">
-	<br>
-	Hard Disk size:<input id="minHDD" type="text" name="minHDD" placeholder="Minimum Hard Drive size">
-	<input id="maxHDD" type="text" name="maxHDD" placeholder="Maximum Hard Drive size">
-	<br>
-	Width:<input id="minWidth" type="text" name="minWidth" placeholder="Minimum Width">
-	<input id="maxWidth" type="text" name="maxWidth" placeholder="Maximum Width">
-	<br>
-	Height:<input id="minHeight" type="text" name="minHeight" placeholder="Minimum Height">
-	<input id="maxHeight" type="text" name="maxHeight" placeholder="Maximum Height">
-	<br>
-	Depth:<input id="minDepth" type="text" name="minDepth" placeholder="Minimum Depth">
-	<input id="maxDepth" type="text" name="maxDepth" placeholder="Maximum Depth">
-	<br>
-	
-</field>
+	<table>
+		<tr>
+			<td>Price:</td>
+			<td><input id="minPrice" type="text" name="minPrice" placeholder="Minimum price"></td>
+			<td><input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price"></td>
+		</tr>
+		<tr>
+			<td>Weight:</td>
+			<td><input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight"></td>
+			<td><input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight"></td>
+		</tr>
+		<tr>
+			<td>Brand:</td>
+			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
+			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
+		</tr>
+		<tr>
+			<td>CPU cores:</td>
+			<td><input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>RAM: </td>
+			<td><input id="minRAM" type="text" name="minRAM" placeholder="Minimum RAM"></td>
+			<td><input id="maxRAM" type="text" name="maxRAM" placeholder="Maximum RAM"></td>
+		</tr>
+		<tr>
+			<td>Processor:</td>
+			<td><input id="FilterProcessor" type="text" name="FilterProcessor" placeholder="Processor"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Hard Disk size:</td>
+			<td><input id="minHDD" type="text" name="minHDD" placeholder="Minimum Hard Drive size"></td>
+			<td><input id="maxHDD" type="text" name="maxHDD" placeholder="Maximum Hard Drive size"></td>
+		</tr>
+		<tr>
+			<td>Width:</td>
+			<td><input id="minWidth" type="text" name="minWidth" placeholder="Minimum Width"></td>
+			<td><input id="maxWidth" type="text" name="maxWidth" placeholder="Maximum Width"></td>
+		</tr>
+		<tr>
+			<td>Height:</td>
+			<td><input id="minHeight" type="text" name="minHeight" placeholder="Minimum Height"></td>
+			<td><input id="maxHeight" type="text" name="maxHeight" placeholder="Maximum Height"></td>
+		</tr>
+		<tr>
+			<td>Depth:</td>
+			<td><input id="minDepth" type="text" name="minDepth" placeholder="Minimum Depth"></td>
+			<td><input id="maxDepth" type="text" name="maxDepth" placeholder="Maximum Depth"></td>
+		</tr>
+	</table>
+</div>
 
-<field id="filtermonitors" >
+<div id="filtermonitors"  style="float:left;">
 	<h5>Filter by:</h5>
-	Price:<input id="minPrice" type="text" name="minPrice" placeholder="Minimum price">
-	<input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price">
-	<br>
-	Weight:<input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight">
-	<input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight">
-	<br>
-	Brand:<input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name">
-	<br>
-	Screen size:<input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size">
-	<input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size">
-	<br>
-	
-</field>
+	<table>
+		<tr>
+			<td>Price:</td>
+			<td><input id="minPrice" type="text" name="minPrice" placeholder="Minimum price"></td>
+			<td><input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price"></td>
+		</tr>
+		<tr>
+			<td>Weight:</td>
+			<td><input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight"></td>
+			<td><input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight"></td>
+		</tr>
+		<tr>
+			<td>Brand:</td>
+			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
+			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
+		</tr>
+		<tr>
+			<td>Screen size:</td>
+			<td><input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size"></td>
+			<td><input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size"></td>
+		</tr>
+	</table>
+</div>
 
-<field id="filterlaptops" >
+<div id="filterlaptops"  style="float:left;">
 	<h5>Filter by:</h5>
-	Price:<input id="minPrice" type="text" name="minPrice" placeholder="Minimum price">
-	<input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price">
-	<br>
-	Weight:<input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight">
-	<input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight">
-	<br>
-	Brand:<input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name">
-	<br>
-	CPU cores:<input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores">
-	<input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores">
-	<br>
-	<br>
-	Battery size:<input id="minBattery" type="text" name="minBattery" placeholder="Minimum battery size">
-	<input id="maxBattery" type="text" name="maxBattery" placeholder="Maximum battery size">
-	<br>
-	Operating system:<input id="FilterOs" type="text" name="FilterOs" placeholder="Operating system">
-	<br>
-	RAM:<input id="minRAM" type="text" name="minRAM" placeholder="Minimum RAM">
-	<input id="maxRAM" type="text" name="maxRAM" placeholder="Maximum RAM">
-	<br>
-	Processor:<input id="FilterProcessor" type="text" name="FilterProcessor" placeholder="Processor">
-	<br>
-	Hard Disk size:<input id="minHDD" type="text" name="minHDD" placeholder="Minimum Hard Drive size">
-	<input id="maxHDD" type="text" name="maxHDD" placeholder="Maximum Hard Drive size">
-	<br>
-	Screen size:<input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size">
-	<input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size">
-	<br>
-
-</field>
+	<table>
+		<tr>
+			<td>Price:</td>
+			<td><input id="minPrice" type="text" name="minPrice" placeholder="Minimum price"></td>
+			<td><input id="maxPrice" type="text" name="maxPrice" placeholder="Maximum price"></td>
+		</tr>
+		<tr>
+			<td>Weight:</td>
+			<td><input id="minWeight" type="text" name="minWeight" placeholder="Minimum weight"></td>
+			<td><input id="maxWeight" type="text" name="maxWeight" placeholder="Maximum weight"></td>
+		</tr>
+		<tr>
+			<td>Brand:</td>
+			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
+			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
+		</tr>
+		<tr>
+			<td>CPU cores:</td>
+			<td><input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Battery size:</td>
+			<td><input id="minBattery" type="text" name="minBattery" placeholder="Minimum battery size"></td>
+			<td><input id="maxBattery" type="text" name="maxBattery" placeholder="Maximum battery size"></td>
+		</tr>
+		<tr>
+			<td>Operating system:</td>
+			<td><input id="FilterOs" type="text" name="FilterOs" placeholder="Operating system"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>RAM: </td>
+			<td><input id="minRAM" type="text" name="minRAM" placeholder="Minimum RAM"></td>
+			<td><input id="maxRAM" type="text" name="maxRAM" placeholder="Maximum RAM"></td>
+		</tr>
+		<tr>
+			<td>Processor:</td>
+			<td><input id="FilterProcessor" type="text" name="FilterProcessor" placeholder="Processor"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Hard Disk size:</td>
+			<td><input id="minHDD" type="text" name="minHDD" placeholder="Minimum Hard Drive size"></td>
+			<td><input id="maxHDD" type="text" name="maxHDD" placeholder="Maximum Hard Drive size"></td>
+		</tr>
+		<tr>
+			<td>Screen size:</td>
+			<td><input id="minScreenSize" type="text" name="minScreenSize" placeholder="Minimum screen size"></td>
+			<td><input id="maxScreenSize" type="text" name="maxScreenSize" placeholder="Maximum screen size"></td>
+		</tr>
+	</table>
+</div>
 
 </fieldset>
 <input style="float: left;" id="submitSet" type="button" value="Show results">

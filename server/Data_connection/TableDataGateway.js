@@ -93,6 +93,8 @@ function getProductSpecification(typeInt,key,fn){
 	})
 }
 function pgRowResultToObjectProduct(Model_Number,typeInt,pg_row_result){
+	//console.log("BELOW")
+	console.log(pg_row_result)
 	console.log("///////////////////////////////////")
 	console.log(pg_row_result);
 	switch(typeInt){
@@ -100,6 +102,7 @@ function pgRowResultToObjectProduct(Model_Number,typeInt,pg_row_result){
 		case 2 : return new Monitor(Model_Number, pg_row_result.price,pg_row_result.weight,pg_row_result.brand,pg_row_result.screen_size);
 		case 3 : return new laptop(Model_Number,pg_row_result.price,pg_row_result.weight,pg_row_result.brand,pg_row_result.hard_drive_size,pg_row_result.ram,pg_row_result.cpu_core,"N/A",pg_row_result.processor,pg_row_result.screen_size,pg_row_result.battery,pg_row_result.operating_system);
 		case 4 : return new Tablet(Model_Number,pg_row_result.price,pg_row_result.weight,pg_row_result.brand,pg_row_result.hard_drive_size,pg_row_result.ram,pg_row_result.cpu_core,pg_row_result.width+" x "+pg_row_result.height+" x "+pg_row_result.depth+" cm",pg_row_result.processor,pg_row_result.screen_size,pg_row_result.battery,pg_row_result.operating_system,pg_row_result.camera) ;
+		default: return null;
 	}
 }
 // TableDataGateway.typeStringToInt(type){
@@ -360,12 +363,22 @@ TableDataGateway.getCatalog = function(category,fn){
 }
 function assembleItemWithSpecification (items,specifiactions,typeInt,fn){
 	var assembled = [];
+	console.log("CHECKER")
+	console.log(items)
+	console.log("CHECKER_2")
+	console.log(specifiactions)
 	for(var i = 0; i<items.length;i++){
 		var key = items[i].specification_id%10000;
 		var index = searchLocalSpecification(specifiactions,key)
-		if(key>-1){
+		console.log(key)
+		console.log(index);
+		console.log()
+		if(-1<key && -1<index){
+			console.log("Should not go")
 			var product = pgRowResultToObjectProduct(items[i].model_number,typeInt,specifiactions[index]);
-			assembled.push(product);
+			if(product!=null){
+				assembled.push(product);
+			}
 		}
 	}
 	//var index = searchLocalSpecification(specifiactions,4)
@@ -379,6 +392,17 @@ function searchLocalSpecification(specifiactions,key){
 		}
 	}
 	return -1;
+}
+TableDataGateway.getWishlist=function(id,fn){
+	conn.query("select * from wishlistrecords where user_id = '"+id+"'",function(err,result){
+		if(err){
+			console.log(err)
+			fn(null)
+		}
+		else{
+			fn(result.rows);
+		}
+	})
 }
 TableDataGateway.saveWislistNew=function(id,wish,fn){
 	if(wish.length>0){

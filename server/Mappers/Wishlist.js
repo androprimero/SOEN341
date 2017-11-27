@@ -7,13 +7,23 @@ var Wishlist=function(clients_pool){
 	var Wish_list = clients_pool;
 	this.addToWishlist=function(userID,product){
 		var c = this.find(userID);
-		console.log("USER FOUND")
-		console.log(c);
-		wishlistAdd(c,product);	
+		//console.log("USER FOUND")
+		if(c!=null){
+			console.log(c);
+			wishlistAdd(c,product);	
+			return true;
+		}
+		return false;
 	}
 	this.deleteFromWishlist = function (userID,model_number){
 		var c = this.find(userID);
-		wishlistDelete(c,model_number);
+		if(c!=null){
+			wishlistDelete(c,model_number);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	this.find = function (userID){
 		var found = null;

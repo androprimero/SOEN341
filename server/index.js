@@ -32,16 +32,6 @@ Mapper(TableDataGateway,myIdentityMap,UnitOfWorkAdmin,myWishlist,myUnitOfWorkWis
 //create connection to database
 Mapper.createDatabaseConnection();
 //MAPPER TEST																									TEST
-var c1 = new Client(1,"gef","pp","wer","my","t");
-var c2 = new Client(2,"gef","pp","wer","my","t");
-var c3 = new Client(3,"gef","pp","wer","my","t");
-var c4 = new Client(4,"gef","pp","wer","my","t");
-Mapper.addClient(c1)
-Mapper.addClient(c2)
-Mapper.addClient(c3)
-Mapper.addClient(c4)
-myWishlist.printArray();
-myUnitOfWorkWishtlist.printArray();
 // TableDataGateway.login("me@ground.down", "legoo",function(user){
 	// if(user!=null){
 		// console.log(user)
@@ -52,6 +42,7 @@ myUnitOfWorkWishtlist.printArray();
 	
 // })
 // myW.printArray();
+//Mapper.signIn("me@sky.up","element");
 app.use(express.static(path.join(__dirname, 'Web')));
 app.get("/Hello",function(req,res){
 	res.setHeader("Content-Type","text/html");
@@ -70,10 +61,10 @@ app.post("/get/:category",function(req,res){
 	Mapper.getCatalog(category, function(result){
 		res.status(200);
 		if(result){
-			console.log("AAAAAAAAAA");
+			//console.log("AAAAAAAAAA");
 			console.log(result);
 			var el = JSON.stringify(result,null,"\t");
-			console.log("BBBBBBBBBB")
+			//console.log("BBBBBBBBBB")
 			console.log(el)
 			//console.log(result);
 			res.end(el);	
@@ -196,14 +187,59 @@ app.post('/signout', function(req,res){
 		}
 	});
 });
+app.post("/getWishlist",function(req,res){
+	res.setHeader("Content-Type","application/json");
+	var token = req.body.data;
+	console.log(req.body.data);
+	var myUser=null;
+	Mapper.verifyToken(token,function(user){
+		if(user==null){
+			res.status(401);
+			var msg ={msg:"User Or Invalid Token"}
+			res.end(JSON.stringify(msg,null,"\t"));
+		}
+		else{
+			myUser=user;
+			console.log(myUser);
+		}
+	})
+	Mapper.getWishlist(myUser.Id,function(obj){
+		if(obj){
+			res.status(200);
+			var data = {};
+			data.rows=obj;
+			res.end(JSON.stringify(data,null,"\t"));
+		}
+		else{
+			res.status(401);
+			res.end("{}",null,"\t");
+		}
+	})
+})
 app.post('/wishlistAdd', function(req,res){
 	res.setHeader("Content-Type","text/plain");
-	var wishlistProduct = JSON.parse(req.body.data);
-	var product = Item.JSONToObject(wishlistProduct);
+	var data = JSON.parse(req.body.data);
+	console.log(data);
+	var product = Item.JSONToObject(data.p);
+	var myUser =null
+	Mapper.verifyToken(data.token,function(user){
+		if(user==null){
+			res.status(401);
+			var msg ={msg:"User Or Invalid Token"}
+			res.end(JSON.stringify(msg,null,"\t"));
+			return;
+		}
+		else{
+			myUser=user;
+			console.log(myUser);
+		}
+	})
 	// var userID = JSON.parse(req.body.data.userID);
 	console.log(product);
+	//myUser.myWishlist.push("OKay");
+	//console.log(myUser.myWishlist);
 	// console.log(userID);
-	Mapper.insertToWishlist(3,product, function(result){
+	Mapper.insertToWishlist(myUser.Id,product, function(result){
 		if(result){
 			res.status(200);
 			res.end("Item Added to the Wishlist");
@@ -215,28 +251,53 @@ app.post('/wishlistAdd', function(req,res){
 	});
 });
 app.post('/wishlistDelete', function(req,res){
-	res.setHeader("Content-Type","text/plain");
-	var model_number = req.body.data;
-	// var userID = JSON.parse(req.body.data.userID);
-	// console.log(userID);
-	Mapper.removeFromWishlist(3,model_number, function(result){
-		if(result){
-			res.status(200);
-			res.end("Item has been Deleted from Wishlist");
+	res.setHeader("Content-Type","application/json");
+	var data = JSON.parse(req.body.data);
+	console.log(data);
+	var model_number = data.p;
+	var myUser =null
+	Mapper.verifyToken(data.token,function(user){
+		if(user==null){
+			res.status(401);
+			var msg ={msg:"User Or Invalid Token"}
+			res.end(JSON.stringify(msg,null,"\t"));
+			return;
 		}
 		else{
-			res.status(400);
-			res.end("Error while Deleting the Item from the Wishlist");
+			myUser=user;
+			console.log(myUser);
+		}
+	})
+	Mapper.removeFromWishlist(myUser.Id,model_number, function(result){
+		if(result){
+			res.status(200);
+			console.log("going back")
+			res.end(JSON.stringify(result,null,"\t"));
+		}
+		else{
+			res.status(401);
+			res.end(JSON.stringify("{}",null,"\t"));
 		}
 	});
 });
 app.post('/commitWishlist', function(req,res){
 	res.setHeader("Content-Type","text/plain");
-	//var model_number = JSON.parse(req.body.data.model_number);
-	// var userID = JSON.parse(req.body.data.userID);
-	//console.log(model_number);
-	// console.log(userID);
-	Mapper.commitWishlist(3, function(result){
+	var data = JSON.parse(req.body.data);
+	var myUser=null
+	Mapper.verifyToken(data.token,function(user){
+		if(user==null){
+			res.status(401);
+			var msg ={msg:"User Or Invalid Token"}
+			res.end(JSON.stringify(msg,null,"\t"));
+			return;
+		}
+		else{
+			myUser=user;
+			
+			console.log(myUser);
+		}
+	})
+	Mapper.commitWishlist(myUser.Id, function(result){
 		if(result){
 			res.status(200);
 			res.end("Item has been Deleted from Wishlist");

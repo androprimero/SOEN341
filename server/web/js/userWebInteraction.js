@@ -18,6 +18,7 @@ function userWebInteraction(control){
 	    os: "#osInput",
 	    camera: "#cameraInput"
 	};
+	//used for filtering
 	var minSettings = {
 	    width: "#minWidth",
 	    height: "#minHeight",
@@ -34,7 +35,7 @@ function userWebInteraction(control){
 	    os: "#FilterOs",
 	    camera: "#minCamera"
 	};
-
+	//used for filtering
 		var maxSettings = {
 	    width: "#maxWidth",
 	    height: "#maxHeight",
@@ -60,7 +61,7 @@ function userWebInteraction(control){
 		// verify Item
 		$('#modelNumberSubmit').on('click', function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(!localStorage.getItem("isAdmin")){
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==="false" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as admin");
 				return;
 			}
@@ -98,7 +99,7 @@ function userWebInteraction(control){
 		//delete Item
 		$("#DeleteSubmit").on('click',function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(!localStorage.getItem("isAdmin")){
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==="false" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as admin");
 				return;
 			}
@@ -118,7 +119,7 @@ function userWebInteraction(control){
 		// Update Item
 		$("#modifyItemSubmit").on('click',function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(!localStorage.getItem("isAdmin")){
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==="false" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as admin");
 				return;
 			}
@@ -135,7 +136,7 @@ function userWebInteraction(control){
 		// add Item 
 		$("#add_item").on('click',function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(!localStorage.getItem("isAdmin")){
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==="false" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as admin");
 				return;
 			}
@@ -154,7 +155,7 @@ function userWebInteraction(control){
 		//commit Save
 		$("#commitSave").on('click',function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(!localStorage.getItem("isAdmin")){
+			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==="false" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as admin");
 				return;
 			}
@@ -165,7 +166,8 @@ function userWebInteraction(control){
 		//addToWishlist
 		$("#addWishlist").on("click",function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==true){
+			//alert(localStorage.getItem("isAdmin"))
+			if((localStorage.getItem("isAdmin")==null) || localStorage.getItem("isAdmin")==="true" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as client");
 				return;
 			}
@@ -177,21 +179,41 @@ function userWebInteraction(control){
 		//removeFromWishlist
 		$("#removeWishlist").on('click',function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==true){
+			if((localStorage.getItem("isAdmin")==null) || localStorage.getItem("isAdmin")==="true" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as client");
 				return;
 			}
 			p = $("#model_number").val();
-			controller.wishlistDelete(p,function(res){
-				controller.commitWishlist(function(res){
-					alert(res)
-				})
+			controller.wishlistDelete(p,function(status,result){
+				if(status){
+					alert("Item Deleted");
+					controller.getMyWishlist(function(status,results){
+						console.log("IN");
+						if(status){
+							console.log(results);
+							defaultForm();
+							latest_res= results;
+							$("#specifications").show();
+							$("#results").show()
+							$("#displayResults").empty();
+							$("#displayResults").append("<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>");
+							if (results.rows.length>0) {
+								for (var i = 0; i < results.rows.length; i++) {
+									$("#displayResults").append("<tr class='res'><td class='indexNumber'>"+(i + 1)+"</td><td>"+ results.rows[i].BrandName +"</td><td>"+ results.rows[i].Model_Number +"</td><td>"+ results.rows[i].price +"</td></tr>");
+								}
+							}
+						}
+						else{
+							alert("Error In Fetching WIshlist")
+						}
+					})
+				}
 			})
 		})
 		//Commit Wish
 		$("#commitWish").on('click',function(){
 			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
-			if(localStorage.getItem("isAdmin")==null || localStorage.getItem("isAdmin")==true){
+			if((localStorage.getItem("isAdmin")==null) || localStorage.getItem("isAdmin")==="true" || localStorage.getItem("isAdmin")==="undefined"){
 				alert("Please log in as client");
 				return;
 			}
@@ -293,9 +315,6 @@ function userWebInteraction(control){
 	       		$("#results").show();
 	        }
 	  	})
-		$("#getWish").on('click',function(){
-			$("#specifications").show();
-		})
 	   	$("#submitSet").on('click',function(){
 	   		$("#specifications").show();
 	   		$("#results").show();
@@ -320,7 +339,7 @@ function userWebInteraction(control){
 	        	MyMaxProduct= formToLaptopItem(maxSettings, "#filterlaptops");
 
 	        }
-//alert(JSON.stringify(MyMaxProduct));
+			//alert(JSON.stringify(MyMaxProduct));
 	        	 controller.ViewInventory($("#categories").val(), MyMinProduct, MyMaxProduct, function(results){
 	         	//alert(JSON.stringify(results, null, "\t")+" AAAAAAA");
 	         	latest_res= results;
@@ -333,6 +352,33 @@ function userWebInteraction(control){
 	         	}
 	        })
 	    });
+		//Get Wishlist
+		$("#getWish").on('click',function(){
+			//LOCAL VERIFICATION, SHOULD BE DONE ON THE SERVER, because time...
+			//alert( localStorage.getItem("isAdmin")==="true" );
+			if((localStorage.getItem("isAdmin")==null) || localStorage.getItem("isAdmin")==="true" || localStorage.getItem("isAdmin")==="undefined"){
+				alert("Please log in as client");
+				return;
+			}
+			controller.getMyWishlist(function(status,results){
+				if(status){
+					console.log(results);
+					latest_res= results;
+					$("#specifications").show();
+					$("#results").show()
+					$("#displayResults").empty();
+					$("#displayResults").append("<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>");
+					if (results.rows.length>0) {
+						for (var i = 0; i < results.rows.length; i++) {
+							$("#displayResults").append("<tr class='res'><td class='indexNumber'>"+(i + 1)+"</td><td>"+ results.rows[i].BrandName +"</td><td>"+ results.rows[i].Model_Number +"</td><td>"+ results.rows[i].price +"</td></tr>");
+						}
+					}
+				}
+				else{
+					alert("Error In Fetching WIshlist")
+				}
+			})
+		})
 	    $("#displayResults").delegate("tr.res", "click", function(){
 	    	var myIndex =$(this).find(".indexNumber").html();
 	    	var myItem = latest_res.rows[myIndex-1]

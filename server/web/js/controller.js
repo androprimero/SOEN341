@@ -8,9 +8,7 @@ function Controller(){
 	this.insertItem = function(product,fn){
 		var theUrl = '/insertProduct';
 		var el ={};
-		el.p=product;
-		el.token=token
-		var data = JSON.stringify(el);
+		var data = JSON.stringify(product);
 		ajaxPOST(theUrl,data,function(result){
 			fn(result);
 		})
@@ -40,19 +38,34 @@ function Controller(){
 		})
 	}
 	this.wishlistAdd=function(p,fn){
-		var data = JSON.stringify(p);
-		ajaxPOST("/wishlistAdd",data,function(result){
+		var data={}
+		data.p = p;
+		data.token = localStorage.getItem("token");
+		var mData = JSON.stringify(data,null,"\t");
+		ajaxPOST("/wishlistAdd",mData,function(result){
 			fn(result);
 		})
 	}
 	this.wishlistDelete=function(model,fn){
-		var data = p;
-		ajaxPOST("/wishlistDelete",data,function(result){
-			fn(result);
+		var data={}
+		data.p = p;
+		data.token = localStorage.getItem("token");
+		var mData = JSON.stringify(data,null,"\t");
+		ajaxPOST("/wishlistDelete",mData,function(status,result){
+			fn(status,result);
+		})
+	}
+	this.getMyWishlist = function(fn){
+		data = localStorage.getItem("token");
+		ajaxPOST("/getWishlist",data,function(status,result){
+			fn(status,result);
 		})
 	}
 	this.commitWishlist = function(fn){
-		ajaxPOST("/commitWishlist","{}",function(result){
+		var data={}
+		data.token = localStorage.getItem("token");
+		var mData = JSON.stringify(data,null,"\t");
+		ajaxPOST("/commitWishlist",mData,function(result){
 			fn(result);
 		})
 	}
