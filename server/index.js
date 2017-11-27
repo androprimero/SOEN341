@@ -4,7 +4,7 @@ var express = require('express');
 var PGConnection = require('pg');
 var bodyParser = require('body-parser');
 var TableDataGateway = require('./Data_connection/TableDataGateway.js');
-var IdentityMap = require('./Mappers/identityMapSingleton.js');
+var IdentityMap = require('./Mappers/IdentityMapSingleton.js');
 var UnitOfWorkAdmin = require('./Mappers/UnityOfWorkAdmin.js')
 var UnitOfWorkWishlist = require('./Mappers/UnitOfWorkWishlistSingleton.js')
 var Wishlist = require('./Mappers/Wishlist.js')
@@ -43,7 +43,7 @@ Mapper.createDatabaseConnection();
 // })
 // myW.printArray();
 //Mapper.signIn("me@sky.up","element");
-app.use(express.static(path.join(__dirname, 'Web')));
+app.use(express.static(path.join(__dirname, 'web')));
 app.get("/Hello",function(req,res){
 	res.setHeader("Content-Type","text/html");
 	res.status(200);
