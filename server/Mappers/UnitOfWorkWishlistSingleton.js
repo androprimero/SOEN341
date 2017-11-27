@@ -1,5 +1,5 @@
 /**
- * IdentityMap for administrator users using the singleton pattern
+ * Unit Of Work for Client Wishlist users using the singleton pattern
  */
 var path = require('path');
 var Product = require(path.join(__dirname, '..', 'Products/Product.js'));
@@ -46,10 +46,17 @@ var UnitOfWorkWishlistSinlgeton = (function(){
 		}
 		this.commitWishlist= function(id,fn){
 			console.log("88888888")
+			var user = find(id);
 			console.log(Mapper)
 			w=find(id)
 			Mapper.saveWislistNew(id,w.insert,function(result){
+				if(result){
+					user.insert=[];
+				}
 				Mapper.deleteWishlistProduct(id,w.remove_,function(result_1){
+					if(result_1){
+						user.remove_=[];
+					}
 					if(result && result_1){
 						fn (true);
 					}

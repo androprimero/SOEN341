@@ -11,6 +11,7 @@ function Mapper (given_tableDataGateway, given_identityMap,given_unitOfWorkAdmin
 	Wishlist = given_wishlist;
 	UnitOfWorkWishlist = given_UnitOfWorkWishlist
 }
+//static methods
 Mapper.getClients_pool=function(){
 	return clients_pool;
 }
@@ -40,21 +41,24 @@ Mapper.addClient=function (c){
 	clients_pool.push(c);
 	UnitOfWorkWishlist.addClient(c.Id)
 }
-function verify (token) {
+function verify (myToken) {
 	var success;
 	jwt.verify(myToken,'soen341fall2017',function(err, decoded){
 		if(err){
-			sucess=null;
-			console.log("unsuccessful logout");
+			success=null;
 		}
 		else{
-			sucess = decoded;
-			console.log(decoded);
+			success = decoded;
+			//console.log(decoded);
 		}
 	});
-	return sucess;
+	return success;
 }
-//static methods
+Mapper.verifyToken=function(token,fn){
+	var myToken = verify(token);
+	console.log(token);
+	fn(myToken);
+}
 Mapper.createDatabaseConnection=function(){
 	TableDataGateway.connect();
 }
@@ -121,27 +125,67 @@ Mapper.commitAdmin=function(fn){
 }
 Mapper.commitWishlist = function(userID,fn){
 	UnitOfWorkWishlist.commitWishlist(userID,function(res){
+		UnitOfWorkWishlist.printArray();
 		fn(res)
 	});
 }
-Mapper.insertToWishlist = function(userID,product){
-	Wishlist.addToWishlist(userID,product);	
+Mapper.getWishlist = function(userID,fn){
+	var found = Wishlist.find(userID)
+	if(found!=null){
+		//console.log("FOUND")
+		fn(found.myWishlist);
+	}
+	else{
+		fn(null)
+	}
+}
+Mapper.insertToWishlist = function(userID,product,fn){
+	var res = Wishlist.addToWishlist(userID,product);	
 	UnitOfWorkWishlist.registerNewWishlist(userID,product.Model_Number);
+	Wishlist.printArray();
 	UnitOfWorkWishlist.printArray();
+	fn(res)
 	
 }
-Mapper.removeFromWishlist = function(userID,model_number){
-	Wishlist.deleteFromWishlist(userID,model_number);	
+Mapper.removeFromWishlist = function(userID,model_number,fn){
+	var res = Wishlist.deleteFromWishlist(userID,model_number);	
 	UnitOfWorkWishlist.registerDelete(userID,model_number);
 	UnitOfWorkWishlist.printArray();
+	fn(res)
 }
 Mapper.signUp = function(myUsername,myPassword,myFirstName,myLastName,myAdress,myEmail,myPhoneNumber,fn){
 	
 }
 Mapper.signIn = function (email, myPassword, fn) {
+	//perform Sign in using TDG
 	TableDataGateway.login(email, myPassword,function(user,admin){
 		if(user!=null){
 			console.log(user)
+			if(!admin){
+				var found = Wishlist.find(user.Id)
+				if(found==null){
+					//add Client to Wishlist and UnityOfWorkWishlist
+					Mapper.addClient(user)
+					console.log("Client Added to Pool")
+					Wishlist.printArray();
+					UnitOfWorkWishlist.printArray();
+					//Add Wishlist List To Client
+					TableDataGateway.getWishlist(user.Id,function(result){
+						if(result!=null){
+							console.log(result);
+							for(var i=0; i<result.length;i++){
+								TableDataGateway.informationProduct(result[i].model_number,function(product){
+									user.myWishlist.push(product)
+									console.log("retrieved for user id "+user.Id +" product "+product.Model_Number+" and added to Wishlist")
+								})
+							}
+						}
+						else{
+							console.log("wishlistError");
+						}
+					})
+				}
+			}
 			jwt.sign(JSON.stringify(user), 'soen341fall2017', function (err,token){
 				if(err){
 					//console.log(err);
