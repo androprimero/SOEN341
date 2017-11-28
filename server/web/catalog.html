@@ -127,11 +127,12 @@
 		<tr>
 			<td>Brand:</td>
 			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
-			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
+		
 		</tr>
 		<tr>
 			<td>CPU cores:</td>
 			<td><input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores"></td>
+				<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -203,11 +204,12 @@
 		<tr>
 			<td>Brand:</td>
 			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
-			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
+		
 		</tr>
 		<tr>
 			<td>CPU cores:</td>
 			<td><input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores"></td>
+				<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -259,7 +261,6 @@
 		<tr>
 			<td>Brand:</td>
 			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
-			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
 		</tr>
 		<tr>
 			<td>Screen size:</td>
@@ -285,11 +286,12 @@
 		<tr>
 			<td>Brand:</td>
 			<td><input id="FilterBrand" type="text" name="FilterBrand" placeholder="Brand name"></td>
-			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
+			
 		</tr>
 		<tr>
 			<td>CPU cores:</td>
 			<td><input id="minCPU" type="text" name="minCPU" placeholder="Minimum CPU cores"></td>
+			<td><input id="maxCPU" type="text" name="maxCPU" placeholder="Maximum CPU cores"></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -326,8 +328,10 @@
 </div>
 
 </fieldset>
-<input style="float: left;" id="submitSet" type="button" value="Show results">
+<input style="float: left;" id="submitSet" type="button" value="Show category">
+
 <fieldset id="results" style="border: none;">
+	<input id="filter" style="float:left;" type="button" value="Filter results">
 	<h3 style="float: left;">Results</h3><br>
 	<br><table id="displayResults">
 		<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>	
