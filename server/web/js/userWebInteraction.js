@@ -397,61 +397,64 @@ function userWebInteraction(control){
 	   //end of monitor
 
 //filtring
-$("#filter").on('click',function(){
-		var array = [];
-		var headers = ["Index", "BrandName", "Model_Number", "price"];
+$("#filter").on('click', function() {
+    var array = [];
+    var headers = ["Index", "BrandName", "Model_Number", "price"];
 
-	$('#results tr').has('td').each(function() {
-    	var arrayItem = {};
-   	 $('td', $(this)).each(function(index, item) {
-        arrayItem[headers[index]] = $(item).html();
+    $('#results tr').has('td').each(function() {
+        var arrayItem = {};
+        $('td', $(this)).each(function(index, item) {
+            arrayItem[headers[index]] = $(item).html();
+        });
+        array.push(arrayItem);
     });
-    array.push(arrayItem);
-});
-if ($("#categories").val()=="tablet"){
-	   			MyMinProduct= formToTabletItem(minSettings, "#filtertablets");
-	   			MyMaxProduct= formToTabletItem(maxSettings, "#filtertablets");
-	   			
-	        }
-	        else if ($("#categories").val()=="desktop"){
-	        	MyMinProduct= formToDesktopItem(minSettings,"#filterdesktops");
-	        	MyMaxProduct= formToDesktopItem(maxSettings,"#filterdesktops");
+    if ($("#categories").val() == "tablet") {
+        MyMinProduct = formToTabletItem(minSettings, "#filtertablets");
+        MyMaxProduct = formToTabletItem(maxSettings, "#filtertablets");
 
-	        }
-	        else if ($("#categories").val()=="monitor"){
-	        	MyMinProduct= formToMonitorItem(minSettings, "#filtermonitors");
-	        	MyMaxProduct= formToMonitorItem(maxSettings, "#filtermonitors");
-	        }
-	        else if ($("#categories").val()=="laptop"){
-	        	MyMinProduct= formToLaptopItem(minSettings, "#filterlaptops");
-	        	MyMaxProduct= formToLaptopItem(maxSettings, "#filterlaptops");
+    } else if ($("#categories").val() == "desktop") {
+        MyMinProduct = formToDesktopItem(minSettings, "#filterdesktops");
+        MyMaxProduct = formToDesktopItem(maxSettings, "#filterdesktops");
 
-	        }
+    } else if ($("#categories").val() == "monitor") {
+        MyMinProduct = formToMonitorItem(minSettings, "#filtermonitors");
+        MyMaxProduct = formToMonitorItem(maxSettings, "#filtermonitors");
+    } else if ($("#categories").val() == "laptop") {
+        MyMinProduct = formToLaptopItem(minSettings, "#filterlaptops");
+        MyMaxProduct = formToLaptopItem(maxSettings, "#filterlaptops");
 
-var FilteredArray = [];
-if (MyMinProduct.price==""){
-	MyMinProduct.price=0;
-}
-if (MyMaxProduct.price==""){
-	MyMaxProduct.price=9999999;
-}
-//alert(MyMinProduct.BrandName=="")
-for (var k = 0; k < array.length; k++) {
-	if (MyMinProduct.BrandName!=""){
-		//alert("inside");
-	if (array[k].BrandName==MyMinProduct.BrandName & array[k].price>MyMinProduct.price & array[k].price<MyMaxProduct.price){
-		FilteredArray.push(array[k]);
-	}}
-}
+    }
 
-$("#displayResults").empty();
-	$("#displayResults").append("<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>");
-	        		for (var k = 0; k < FilteredArray.length; k++) {
-	        			//alert(k);
-	        			$("#displayResults").append("<tr class='res'><td class='indexNumber'>"+FilteredArray[k].Index+"</td><td>"+ FilteredArray[k].BrandName +"</td><td>"+ FilteredArray[k].Model_Number +"</td><td>"+ FilteredArray[k].price +"</td></tr>");
-	        		}
+    var FilteredArray = [];
+    if (MyMinProduct.price == "") {
+        MyMinProduct.price = 0;
+    }
+    if (MyMaxProduct.price == "") {
+        MyMaxProduct.price = 9999999;
+    }
+
+    if (MyMinProduct.BrandName != "") {
+        for (var k = 0; k < array.length; k++) {
+            if (array[k].BrandName == MyMinProduct.BrandName && array[k].price > MyMinProduct.price && array[k].price < MyMaxProduct.price) {
+                FilteredArray.push(array[k]);
+            }
+        }
+
+    } else
+        for (var k = 0; k < array.length; k++) {
+            if (array[k].price > MyMinProduct.price && array[k].price < MyMaxProduct.price) {
+                FilteredArray.push(array[k]);
+            }
+        }
+
+
+    $("#displayResults").empty();
+    $("#displayResults").append("<tr><th>#</th><th>Brand</th><th>ModelNumber</th><th>Price</th></tr>");
+    for (var k = 0; k < FilteredArray.length; k++) {
+        //alert(k);
+        $("#displayResults").append("<tr class='res'><td class='indexNumber'>" + FilteredArray[k].Index + "</td><td>" + FilteredArray[k].BrandName + "</td><td>" + FilteredArray[k].Model_Number + "</td><td>" + FilteredArray[k].price + "</td></tr>");
+    }
 })
-
 
 
 	   //random ordering
